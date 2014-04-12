@@ -8,9 +8,9 @@ Console root;
 bool _customFont = false;
 List _FONT = [];// stores the chars
 // Set up the main console
-Future initRoot(int w_in_chars, int h_in_chars,[bool fullscreen = false]){
+initRoot(int w_in_chars, int h_in_chars,[bool fullscreen = false]){
   root = new Console(0,0,w_in_chars,h_in_chars);
-
+  
   // HTML mods
   document.head
     ..appendHtml(
@@ -29,26 +29,29 @@ Future initRoot(int w_in_chars, int h_in_chars,[bool fullscreen = false]){
         width: 100%;
         margin: 0;
         overflow:hidden;}
-
+        canvas{
+        position:absolute;
+        }
         </style>    
     ''');
   if (_customFont == false)
   console_set_custom_font('terminal.png',0,16,16);
+  return root;
 }
 
 class Console{
   CanvasElement _container;
   Grid data;
-  
+  int x_in_chars;
+  int y_in_chars;
   // Default Color Declaration;
   Color defaultBackground = BLACK;
   Color defaultForeground = WHITE;
   
-  Console(int x_in_chars,int y_in_chars,int w_in_chars, int h_in_chars){
+  Console(this.x_in_chars,this.y_in_chars,int w_in_chars, int h_in_chars){
     data = new Grid(0,0,w_in_chars,h_in_chars,[0,WHITE,BLACK]);
     _container = new CanvasElement()
     ..context2D.imageSmoothingEnabled = false;
-    
     
     // Handle Right Clicks
     _container.onContextMenu.listen((MouseEvent m){
@@ -82,12 +85,14 @@ class Console{
           });            
     });
     
-    
     document.body.append(_container);
+    
+    // start the renderloop
+    this._flush();
   }
   
   // Pushes the character data to the Canvas. Refreshes the screen.
-  flush(){
+  _flush(){
     if (_FONT.length >= 1){
     this._container
     ..width = data.width*_FONT[0].width
@@ -101,6 +106,11 @@ class Console{
       _FONT[rune].context2D.globalCompositeOperation = 'source-in';
       _FONT[rune].context2D.fillRect(0, 0, _FONT[rune].width, _FONT[rune].height);
       
+      _container.style
+      ..left = (x_in_chars*_FONT[0].width).toString()
+      ..top = (y_in_chars*_FONT[0].height).toString();
+      
+      
       _container.context2D
       ..imageSmoothingEnabled = false
       ..fillStyle = bgcolor.toString()
@@ -109,6 +119,7 @@ class Console{
       ..drawImageScaled(_FONT[rune], (y)*(_FONT[rune].width), (x)*(_FONT[rune].height), _FONT[rune].width, _FONT[rune].height);
       });    
     }
+    window.requestAnimationFrame((frame){this._flush();print(frame);});
   }
   
   // Sets the console back to it's defaults.
@@ -122,6 +133,7 @@ class Console{
     else
       this._container.remove();
   }
+    
   
   // Changes the background color of a cell
   setCharBackground(int x, int y, Color color,[var flag]){
