@@ -5,7 +5,7 @@ part of libpen;
 /// A representation of a text-based console.
 class Console {
   CanvasElement container;
-  Grid data;
+  Grid<List> data;
   Font font;
   int x_in_chars;
   int y_in_chars;
@@ -16,7 +16,7 @@ class Console {
   Console(int w_in_chars, int h_in_chars, [Font font]) {
     if (font == null) this.font = defaultFont; else this.font = font;
     
-    data = new Grid(0, 0, w_in_chars, h_in_chars, [0, WHITE, BLACK]);
+    data = new Grid(0, 0, w_in_chars, h_in_chars,[0,defaultForeground,defaultBackground]);
     
     this.font.loaded.then((_) {
     container = new CanvasElement(width: data.width * this.font.char_width, height: data.height * this.font.char_height)
@@ -29,7 +29,6 @@ class Console {
     this.flush();
   }
 
-
   /// Pushes the character data to the Canvas. Refreshes the screen.
   flush() {
     // request a frame.
@@ -37,24 +36,20 @@ class Console {
 
       // for each cell in the grid draw the cell
       data.forEach((int y, int x, List cell) {
-        // Easier to read variables
-        int rune = cell[0];
-        Color fgcolor = cell[1];
-        Color bgcolor = cell[2];
 
         // make sure font is loaded by now.
         font.loaded.then((_) {
           // prepare foreground
-          font.chars[rune].context2D
-              ..fillStyle = fgcolor.toString()
+          font.chars[cell[0]].context2D
+              ..fillStyle = cell[1].toString()
               ..globalCompositeOperation = 'source-in'
               ..fillRect(0, 0, font.char_width, font.char_height);
 
           // print foreground and background to canvas.
           container.context2D
-              ..fillStyle = bgcolor.toString()
+              ..fillStyle = cell[2] .toString()
               ..fillRect(x * font.char_width, y * font.char_height, font.char_width, font.char_height)
-              ..drawImageScaled(font.chars[rune], x * font.char_width, y * font.char_height, font.char_width, font.char_height);
+              ..drawImageScaled(font.chars[cell[0]], x * font.char_width, y * font.char_height, font.char_width, font.char_height);
         });
       });
     });
@@ -111,7 +106,8 @@ class Console {
    */
   setCharBackground(int x, int y, Color color, [var flag]) {
     // Do nothing
-    if (flag.hashCode == NONE.hashCode) {} // Set the Color
+    if (flag.hashCode == NONE.hashCode);
+    // Set the Color
     else if (flag.hashCode == SET.hashCode || flag == null) {
       data[x][y] = [data[x][y][0], data[x][y][1], color];
     }
@@ -154,9 +150,9 @@ class Console {
    * 
    * Changes will not be seen until the Console is flushed.
    */
-  putCharEx(int x, int y, var c, Color foreColor, Color backColor) {
-    if (c is String) c = c.runes.first;
-    data[x][y] = [c, foreColor, backColor];
+  putCharEx(int x, int y, var char, Color foreColor, Color backColor) {
+    if (char is String) char = char.runes.first;
+    data[x][y] = [char, foreColor, backColor];
   }
 
 }

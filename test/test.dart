@@ -1,15 +1,18 @@
 import 'package:libpen/libpen.dart';
-import 'package:libpen/libpen_mouse.dart';
+import 'dart:async';
+import 'dart:math';
 
-Color playercolor = new Color(166, 39, 6);
-
+Random r = new Random();
 main() {
-  Mouse mouse = new Mouse();
+  Console root = new Console(50, 30);
+  root.clear();
+  root.setCharBackground(5, 5, RED);
+  
+  new Timer.periodic(new Duration(milliseconds: 1), (_) {
+    root.putCharEx(r.nextInt(50), r.nextInt(30), r.nextInt(256), new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)),  new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)));
+  });
 
-
-    Console root = new Console(50,30);
-    root.drawText(5, 5, "Once upon a time, there were seven little folk.", 20);
-    mouse.onClick.listen((Map event) {print(event);});
-    root.flush();
-
+  new Timer.periodic(new Duration(milliseconds:5), (_) => root.flush());
+  
 }
+
