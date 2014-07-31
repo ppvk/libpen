@@ -13,16 +13,18 @@ class Console {
   Color defaultBackground = BLACK;
   Color defaultForeground = WHITE;
 
-  Console(int w_in_chars, int h_in_chars, this.font) {
+  Console(int w_in_chars, int h_in_chars, [Font font]) {
+    if (font == null) this.font = defaultFont; else this.font = font;
     
     data = new Grid(0, 0, w_in_chars, h_in_chars, [0, WHITE, BLACK]);
-    container = new CanvasElement(width: data.width * font.char_width, height: data.height * font.char_height)
+    
+    this.font.loaded.then((_) {
+    container = new CanvasElement(width: data.width * this.font.char_width, height: data.height * this.font.char_height)
         ..classes.add('libpen-console')
         ..context2D.imageSmoothingEnabled = false;
-    // Setup input listeners. See input.dart
-    //_consoleListeners(this);
-
     document.body.append(container);
+    });
+    
     // initial flush to the screen.
     this.flush();
   }
@@ -40,17 +42,20 @@ class Console {
         Color fgcolor = cell[1];
         Color bgcolor = cell[2];
 
-        // prepare foreground
-        font.chars[rune].context2D
-            ..fillStyle = fgcolor.toString()
-            ..globalCompositeOperation = 'source-in'
-            ..fillRect(0, 0, font.char_width, font.char_height);
-        
-        // print foreground and background to canvas.
-        container.context2D
-            ..fillStyle = bgcolor.toString()
-            ..fillRect(x * font.char_width, y * font.char_height, font.char_width, font.char_height)
-            ..drawImageScaled(font.chars[rune], x * font.char_width, y * font.char_height, font.char_width, font.char_height);
+        // make sure font is loaded by now.
+        font.loaded.then((_) {
+          // prepare foreground
+          font.chars[rune].context2D
+              ..fillStyle = fgcolor.toString()
+              ..globalCompositeOperation = 'source-in'
+              ..fillRect(0, 0, font.char_width, font.char_height);
+
+          // print foreground and background to canvas.
+          container.context2D
+              ..fillStyle = bgcolor.toString()
+              ..fillRect(x * font.char_width, y * font.char_height, font.char_width, font.char_height)
+              ..drawImageScaled(font.chars[rune], x * font.char_width, y * font.char_height, font.char_width, font.char_height);
+        });
       });
     });
   }
@@ -112,7 +117,7 @@ class Console {
     }
     // TODO implement other color manipulations
   }
-  
+
   /**
    * Change only the foreground color of a cell
    * 
@@ -143,7 +148,7 @@ class Console {
     if (char is String) char = char.runes.first;
     data[x][y] = [char, defaultForeground, defaultBackground];
   }
-  
+
   /**
    * Change cell to char and set it's coloration
    * 

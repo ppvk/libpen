@@ -1,6 +1,7 @@
 name: libpen
-version: 0.1.0
+version: 0.1.1
 author: Paul VanKeuren <paul.vankeuren@gmail.com>
 description: An ascii console display for dart-written roguelikes. Inspired heavily by libtcod and rot.js
+homepage: https://github.com/darkkiero/libpen
 dev_dependencies:
   browser: any

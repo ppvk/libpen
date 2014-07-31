@@ -1,5 +1,6 @@
 packages
 out
 pubspec.lock
+build
 .buildlog
 APIKEYS.dart
