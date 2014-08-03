@@ -17,12 +17,14 @@ class Console {
     if (font == null) this.font = defaultFont; else this.font = font;
     
     data = new Grid(0, 0, w_in_chars, h_in_chars,[0,defaultForeground,defaultBackground]);
+    container = new CanvasElement()        
+      ..classes.add('libpen-console')
+      ..context2D.imageSmoothingEnabled = false;
     
     this.font.loaded.then((_) {
-    container = new CanvasElement(width: data.width * this.font.char_width, height: data.height * this.font.char_height)
-        ..classes.add('libpen-console')
-        ..context2D.imageSmoothingEnabled = false;
-    document.body.append(container);
+      container
+        ..width = data.width * this.font.char_width
+        ..height = data.height * this.font.char_height;
     });
     
     // initial flush to the screen.

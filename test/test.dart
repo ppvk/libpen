@@ -1,10 +1,12 @@
 import 'package:libpen/libpen.dart';
 import 'dart:async';
 import 'dart:math';
+import 'dart:html' as html;
 
 Random r = new Random();
 main() {
   Console root = new Console(50, 30);
+  html.document.body.append(root.container);
   root.clear();
   root.setCharBackground(5, 5, RED);
   
