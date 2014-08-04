@@ -11,7 +11,7 @@ main() {
   root.setCharBackground(5, 5, RED);
   
   new Timer.periodic(new Duration(milliseconds: 1), (_) {
-    root.putCharEx(r.nextInt(50), r.nextInt(30), r.nextInt(256), new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)),  new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)));
+    root.putChar(r.nextInt(50), r.nextInt(30), r.nextInt(256), new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)),  new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)));
   });
 
   new Timer.periodic(new Duration(milliseconds:5), (_) => root.flush());

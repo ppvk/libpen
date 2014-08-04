@@ -138,23 +138,16 @@ class Console {
   }
 
   /**
-   * Change cell to char, using default coloration.
+   * Change cell to char and optionally set it's coloration
    * 
    * Changes will not be seen until the Console is flushed.
    */
-  putChar(int x, int y, var char) {
+  putChar(int x, int y, var char, [Color foreColor, Color backColor]) {
     if (char is String) char = char.runes.first;
-    data[x][y] = [char, defaultForeground, defaultBackground];
-  }
-
-  /**
-   * Change cell to char and set it's coloration
-   * 
-   * Changes will not be seen until the Console is flushed.
-   */
-  putCharEx(int x, int y, var char, Color foreColor, Color backColor) {
-    if (char is String) char = char.runes.first;
-    data[x][y] = [char, foreColor, backColor];
+    if (foreColor == null && backColor == null)
+      data[x][y] = [char, defaultForeground, defaultBackground];
+    else
+      data[x][y] = [char, foreColor, backColor];
   }
 
 }
