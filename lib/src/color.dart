@@ -53,6 +53,7 @@ class Color {
   }
 }
 
+
 // DEFAULT COLORS
 final Color BLACK = new Color(0, 0, 0);
 final Color GREY = new Color(127, 127, 127);
@@ -88,6 +89,7 @@ final Color FUCHSIA = new Color(255, 0, 255);
 final Color MAGENTA = new Color(255, 0, 191);
 final Color PINK = new Color(255, 0, 127);
 final Color CRIMSON = new Color(255, 0, 63);
+
 
 // COLOR CHANGE FLAGS
 final NONE = new Object();

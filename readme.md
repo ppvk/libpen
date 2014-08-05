@@ -3,9 +3,7 @@ libpen
 libpen is a Console Emulation library written in dart.
 
 * designed specifically for developing ASCII roguelikes.
-* inspired spiritually and syntactically by libtcod and rot.js.
-* depends solely on dart:core and dart:html.
-
+* inspired spiritually and syntactically by [libtcod](http://doryen.eptalys.net/libtcod/), [malison](https://github.com/munificent/malison), and [rot.js](http://ondras.github.io/rot.js/hp/).
 
 Simple setup:
     
@@ -35,5 +33,5 @@ Easy use:
 
 Small features: 
 
-* Mouse Support
+* Canvas coordinate mouse support
 * String drawing with word wrap
