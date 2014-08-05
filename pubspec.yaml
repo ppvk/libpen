@@ -7,4 +7,3 @@ dependencies:
   piecemeal: any
 dev_dependencies:
   browser: any
-  unittest: any
