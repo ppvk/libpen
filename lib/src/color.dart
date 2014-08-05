@@ -27,9 +27,9 @@ class Color {
   }
   /// Subtracts one color from another.
   Color operator -(Color other) {
-    int nr = min(0, r - other.r);
-    int ng = min(0, g - other.g);
-    int nb = min(0, b - other.b);
+    int nr = max(0, r - other.r);
+    int ng = max(0, g - other.g);
+    int nb = max(0, b - other.b);
     return new Color(nr, ng, nb);
   }
   /// tests if this Color is the same as another Color.

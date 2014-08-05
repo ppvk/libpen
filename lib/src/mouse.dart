@@ -48,38 +48,45 @@ show() {
 }
 }
 
+// sets up event listeners for a Console
 _consoleListeners(Console console) {
 // make sure font is loaded by now.
 console.font.loaded.then((_) {
   // Handle Right Clicks
   console.container.onContextMenu.listen((MouseEvent m) {
-    _mouse._onRightClick.add({
-      'cell': new Point((m.client.x + console.container.client.left) ~/ console.font.char_width, (m.client.y + console.container.client.top) ~/ console.font.char_height),
-      'shift': m.shiftKey,
-      'alt': m.altKey,
-      'console': console
-    });
+    _mouse._onRightClick.add(
+        new ClickEvent(new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),m.shiftKey,m.altKey,console)
+    );
     m.preventDefault();
   });
 
   // Handle Normal Clicks
   console.container.onClick.listen((MouseEvent m) {
-    _mouse._onClick.add({
-      'cell': new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),
-      'shift': m.shiftKey,
-      'alt': m.altKey,
-      'console': console
-    });
+    _mouse._onClick.add(
+        new ClickEvent(new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),m.shiftKey,m.altKey,console)
+    );
     m.preventDefault();
   });
   console.container.onDoubleClick.listen((MouseEvent m) {
-    _mouse._onDoubleClick.add({
-      'cell': new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),
-      'shift': m.shiftKey,
-      'alt': m.altKey,
-      'console': console
-    });
+    _mouse._onDoubleClick.add(
+        new ClickEvent(new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),m.shiftKey,m.altKey,console));
     m.preventDefault();
   });
 });
 }
+
+
+class ClickEvent {
+  Point cell;
+  bool shift;
+  bool alt;
+  Console console;  
+  ClickEvent(final this.cell,final this.shift,final this.alt,final this.console);
+  @override
+  String toString() {
+    return 'x:${cell.x}, y:${cell.y}, shift:$shift, alt:$alt, Console id ${console.hashCode}';
+  }
+}
+
+
+
