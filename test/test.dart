@@ -8,12 +8,19 @@ main() {
   Console root = new Console(80, 50);
   html.document.body.append(root.container);
   root.clear();
-  root.setCharBackground(5, 5, RED);
   new Timer.periodic(new Duration(milliseconds: 1), (_) {
-    root.putChar(r.nextInt(80), r.nextInt(50), r.nextInt(256), new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)),  new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255), 1));
+    root.drawText(0, 0, 'Overdraw?');
   });
+  
+  new Mouse()
+  ..onClick.listen((Map data){
+    root.setChar(data['cell'].x, data['cell'].y,r.nextInt(200));
+    print(data);
+    root.flush();
+  });
+  
 
-  new Timer.periodic(new Duration(milliseconds:200), (_) => root.flush());
+  new Timer.periodic(new Duration(seconds:1), (_) => root.flush());
   
 }
 

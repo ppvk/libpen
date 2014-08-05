@@ -4,7 +4,9 @@ part of libpen;
 
 /// A representation of a text-based console.
 class Console {
-  CanvasElement container;
+  DivElement container;
+  CanvasElement _foreCanvas;
+  CanvasElement _backCanvas;
   Array2D<List> data;
   Font font;
   int x_in_chars;
@@ -17,14 +19,32 @@ class Console {
     if (font == null) this.font = defaultFont; else this.font = font;
 
     data = new Array2D(w_in_chars, h_in_chars, [0, defaultForeground, defaultBackground]);
-    container = new CanvasElement()
-        ..classes.add('libpen-console')
-        ..context2D.imageSmoothingEnabled = false;
+    container = new DivElement()..classes.add('libpen-console');
 
+    _foreCanvas = new CanvasElement()..context2D.imageSmoothingEnabled = false;
+    _backCanvas = new CanvasElement()..context2D.imageSmoothingEnabled = false;
+
+    _consoleListeners(this);
+    
     this.font.loaded.then((_) {
-      container
+      _foreCanvas
+          ..style.position = 'absolute'
+          ..style.top = '0'
+          ..style.left = '0'
+          ..style.margin = '0'
           ..width = data.width * this.font.char_width
           ..height = data.height * this.font.char_height;
+      _backCanvas
+          ..style.position = 'absolute'
+          ..style.top = '0'
+          ..style.left = '0'
+          ..style.margin = '0'
+          ..width = data.width * this.font.char_width
+          ..height = data.height * this.font.char_height;
+      container
+          ..append(_backCanvas)
+          ..append(_foreCanvas);
+
     });
   }
 
@@ -34,24 +54,35 @@ class Console {
     window.requestAnimationFrame((frame) {
 
       // for each cell in the grid draw the cell
-      for (int x = data.width - 1; x >= 0 ; x--) {
-        for (int y = data.height - 1; y >= 0 ; y--) {
+      for (int x = data.width - 1; x >= 0; x--) {
+        for (int y = data.height - 1; y >= 0; y--) {
+
           // make sure font is loaded by now.
           font.loaded.then((_) {
             // prepare foreground
+
             font.chars[data.get(x, y)[0]].context2D
                 ..fillStyle = data.get(x, y)[1].toString()
                 ..globalCompositeOperation = 'source-in'
                 ..fillRect(0, 0, font.char_width, font.char_height);
 
-            // print foreground and background to canvas.
-            container.context2D
+            // print background but only if there was a change
+
+            _backCanvas.context2D
                 ..fillStyle = data.get(x, y)[2].toString()
-                ..fillRect(x * font.char_width, y * font.char_height, font.char_width, font.char_height)
+                ..fillRect(x * font.char_width, y * font.char_height, font.char_width, font.char_height);
+
+            // print foreground, but only if there was a change
+
+            _foreCanvas.context2D
+                ..clearRect(x * font.char_width, y * font.char_height, font.char_width, font.char_height)
                 ..drawImageScaled(font.chars[data.get(x, y)[0]], x * font.char_width, y * font.char_height, font.char_width, font.char_height);
           });
+
         }
       }
+
+
     });
   }
 

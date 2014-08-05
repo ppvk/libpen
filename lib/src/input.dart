@@ -1,7 +1,7 @@
 part of libpen;
 
 //Reusable mouse object.
-Mouse _mouse;
+Mouse _mouse = new Mouse._new();
 
 /**
  * A representation of a user's pointing mechanism.
