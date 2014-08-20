@@ -9,15 +9,19 @@ final defaultFont = new Font(new ImageElement(src: 'packages/libpen/font.png'), 
  * Be sure that the 'loaded' future has completed before you let a Console use it.
 */
 class Font {
+  
+  // Sometimes checking a bool is preferred, other times a future.
+  // In one case you want to guarantee an action, the other you're willing to skip.
   Future<bool> loaded;
-
+  bool ready = false;
+  
   List chars = [];// stores the chars
   int char_width;
   int char_height;
 
   /** 
-   * 
    * font can be either an ImageElement OR a valid path as a String. 
+   * ImageElements embedded in html are already loaded, shortening your startup time.
    * 
   */
   Font(var font, chars_horizontal, chars_vertical) {
@@ -54,6 +58,7 @@ class Font {
         chars.add(glyph);
         iw++;
       }
+      ready = true;
       loadc.complete(true);
     });
     loaded = loadc.future;

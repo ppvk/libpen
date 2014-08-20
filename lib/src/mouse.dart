@@ -10,7 +10,10 @@ Mouse _mouse = new Mouse._new();
  */
 class Mouse {
 StyleElement _mouseStyle;
+
+/// The cursor's style, can be any string assignable to the CSS property 'cursor'.
 String cursor = 'default';
+/// The cursor's visibility.
 bool hidden = false;
 
 StreamController _onClick = new StreamController();
