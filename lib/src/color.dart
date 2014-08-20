@@ -1,7 +1,16 @@
 part of libpen;
 
 
-/// Handles default colors and manipulation
+// Default Color Declaration;
+Color defaultBackground = BLACK;
+Color defaultForeground = WHITE;
+
+
+/**
+ * Handles default colors and manipulation
+ * 
+ * 
+ */ 
 class Color {
   /// Red color value
   int r;
@@ -59,6 +68,7 @@ final Color BLACK = new Color(0, 0, 0);
 final Color GREY = new Color(127, 127, 127);
 final Color SEPIA = new Color(127, 101, 63);
 final Color WHITE = new Color(255, 255, 255);
+final Color TRANSPARENT = new Color(0,0,0,0);
 
 final Color BRASS = new Color(191, 151, 96);
 final Color COPPER = new Color(196, 136, 124);
