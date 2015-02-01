@@ -11,7 +11,11 @@ Random r = new Random();
 main() {  
   testColors();
   testDraw();
-  
-
 }
 
+frame(Console console) {
+  html.window.requestAnimationFrame((_) {
+    console.flush();
+    frame(console);
+  });
+}

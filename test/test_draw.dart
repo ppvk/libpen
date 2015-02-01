@@ -11,10 +11,9 @@ testDraw() {
   for (Char char in i.charData)
     char
       ..glyph = 2
-      ..backColor = TRANSPARENT;
+      ..backColor = RED;
   
   console.drawImage(2, 2, i);
-  
   console.setChar(5, 5, '5');
   console.flush();  
 }
