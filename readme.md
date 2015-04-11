@@ -1,7 +1,5 @@
 libpen
 =========
-![Gratipay](http://img.shields.io/gratipay/Paul VanKeuren.svg)
-
 libpen is a Console Emulation library written in dart.
 
 * designed specifically for developing ASCII roguelikes.
