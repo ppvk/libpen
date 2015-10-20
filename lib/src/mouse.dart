@@ -57,22 +57,25 @@ _consoleListeners(Console console) {
 console.font.loaded.then((_) {
   // Handle Right Clicks
   console.container.onContextMenu.listen((MouseEvent m) {
+    Rectangle containerRect = console.container.getBoundingClientRect();
     _mouse._onRightClick.add(
-        new ClickEvent(new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),m.shiftKey,m.altKey,console)
+        new ClickEvent(new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height),m.shiftKey,m.altKey,console)
     );
     m.preventDefault();
   });
 
   // Handle Normal Clicks
   console.container.onClick.listen((MouseEvent m) {
+    Rectangle containerRect = console.container.getBoundingClientRect();
     _mouse._onClick.add(
-        new ClickEvent(new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),m.shiftKey,m.altKey,console)
+        new ClickEvent(new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height),m.shiftKey,m.altKey,console)
     );
     m.preventDefault();
   });
   console.container.onDoubleClick.listen((MouseEvent m) {
+    Rectangle containerRect = console.container.getBoundingClientRect();
     _mouse._onDoubleClick.add(
-        new ClickEvent(new Point(m.client.x ~/ console.font.char_width, m.client.y ~/ console.font.char_height),m.shiftKey,m.altKey,console));
+        new ClickEvent(new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height),m.shiftKey,m.altKey,console));
     m.preventDefault();
   });
 });
