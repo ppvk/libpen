@@ -1,5 +1,7 @@
 packages
 out
+.idea
+.packages
 pubspec.lock
 build
 .buildlog
