@@ -58,8 +58,14 @@ console.font.loaded.then((_) {
   // Handle Right Clicks
   console.container.onContextMenu.listen((MouseEvent m) {
     Rectangle containerRect = console.container.getBoundingClientRect();
+    Point pos = new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height);
     _mouse._onRightClick.add(
-        new ClickEvent(new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height),m.shiftKey,m.altKey,console)
+        new ClickEvent(
+            pos,
+            m.shiftKey,m.altKey,
+            console,
+            console.charData.get(pos.x, pos.y)
+        )
     );
     m.preventDefault();
   });
@@ -67,15 +73,29 @@ console.font.loaded.then((_) {
   // Handle Normal Clicks
   console.container.onClick.listen((MouseEvent m) {
     Rectangle containerRect = console.container.getBoundingClientRect();
+    Point pos = new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height);
     _mouse._onClick.add(
-        new ClickEvent(new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height),m.shiftKey,m.altKey,console)
+        new ClickEvent(
+            pos,
+            m.shiftKey,m.altKey,
+            console,
+            console.charData.get(pos.x, pos.y)
+        )
     );
     m.preventDefault();
   });
   console.container.onDoubleClick.listen((MouseEvent m) {
     Rectangle containerRect = console.container.getBoundingClientRect();
+    Point pos = new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height);
     _mouse._onDoubleClick.add(
-        new ClickEvent(new Point((m.client.x - containerRect.left) ~/ console.font.char_width, (m.client.y - containerRect.top) ~/ console.font.char_height),m.shiftKey,m.altKey,console));
+        new ClickEvent(
+            pos,
+            m.shiftKey,
+            m.altKey,
+            console,
+            console.charData.get(pos.x, pos.y)
+        )
+    );
     m.preventDefault();
   });
 });
@@ -86,8 +106,9 @@ class ClickEvent {
   Point cell;
   bool shift;
   bool alt;
-  Console console;  
-  ClickEvent(final this.cell,final this.shift,final this.alt,final this.console);
+  Console console;
+  Char char;
+  ClickEvent(final this.cell,final this.shift,final this.alt,final this.console, this.char);
   @override
   String toString() {
     return 'x:${cell.x}, y:${cell.y}, shift:$shift, alt:$alt, Console id ${console.hashCode}';

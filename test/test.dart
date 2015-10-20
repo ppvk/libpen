@@ -1,6 +1,5 @@
 library test;
 import 'package:libpen/libpen.dart';
-import 'dart:async';
 import 'dart:math';
 import 'dart:html' as html;
 

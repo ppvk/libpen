@@ -41,7 +41,6 @@ class Font {
           ih++;
         }
         CanvasElement glyph = new CanvasElement();
-        var context = glyph.context2D;
         glyph
             ..width = char_width
             ..height = char_height
