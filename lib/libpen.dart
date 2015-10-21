@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:async';
 
 import 'package:piecemeal/piecemeal.dart';
+export 'package:piecemeal/piecemeal.dart' show Array2D;
 
 part 'src/console.dart';
 part 'src/cell.dart';
