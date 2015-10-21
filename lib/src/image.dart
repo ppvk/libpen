@@ -8,9 +8,9 @@ class Image {
   Array2D<Char> charData;
 
   Image(int width, int height, [Color fore, Color back]) {
-    if (fore == null) fore = defaultForeground;
+    if (fore == null) fore = Char.DEFAULT_FOREGROUND_COLOR;
 
-    charData = new Array2D.generated(width, height, () => new Char(0, defaultForeground, defaultBackground));
+    charData = new Array2D.generated(width, height, () => new Char(0, Char.DEFAULT_FOREGROUND_COLOR, Char.DEFAULT_BACKGROUND_COLOR));
   }
 
   /** 
