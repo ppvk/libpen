@@ -50,8 +50,8 @@ class Console extends Image {
   clear() {
     for (Char char in charData) char
         ..glyph = 0
-        ..foreColor = defaultForeground
-        ..backColor = defaultBackground;
+        ..foreColor = Char.DEFAULT_FOREGROUND_COLOR
+        ..backColor = Char.DEFAULT_BACKGROUND_COLOR;
   }
 
   /// Pushes the character data to the Canvas. Refreshes the screen.
