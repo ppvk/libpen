@@ -1,16 +1,39 @@
 part of libpen;
 
 /**
- *  An array of [Char]/[Color] data that is easily blitted to an [Image] or [Console].
+ *  An array of [Glyph]/[Color] data that is easily blitted to an [Image] or [Console].
  *  TODO: make this poolable
  */
 class Image {
-  Array2D<Char> charData;
+  Array2D<Cell> cellData;
 
   Image(int width, int height, [Color fore, Color back]) {
     if (fore == null) fore = defaultForeground;
+    cellData = new Array2D.generated(width, height, () => new Cell(0, defaultForeground, defaultBackground));
+  }
 
-    charData = new Array2D.generated(width, height, () => new Char(0, defaultForeground, defaultBackground));
+  Image.from(Image other, {int top, int left, int bottom, int right}) {
+    int width = right - left + 1;
+    int height = bottom - top + 1;
+    cellData = new Array2D.generated(width, height, () => new Cell(0, defaultForeground, defaultBackground));
+
+    for (int x = width-1; x>=0 ;x--)
+      for (int y = height-1; y>=0 ;y--){
+        Cell otherChar = other.cellData.get(left + x, top + y);
+        cellData.set(x, y, otherChar.clone());
+      }
+  }
+
+  /**
+   * Sets all chars to 'space' and colors to their defaults.
+   *
+   * Changes will not be seen until the [Console] is flushed.
+   */
+  clear() {
+    for (Cell char in cellData) char
+      ..glyph = 0
+      ..foreColor = defaultForeground
+      ..backColor = defaultBackground;
   }
 
   /** 
@@ -54,14 +77,14 @@ class Image {
    * 
    */
   drawImage(int x, int y, Image image) {
-    this.charData;
+    this.cellData;
     int xi = 0;
     int yi = 0;
-    for (Char char in image.charData) {
+    for (Cell char in image.cellData) {
       this.putChar(x + xi, y + yi, char.glyph, char.foreColor, char.backColor);
       xi++;
-      if (xi >= image.charData.width) {
-        yi += 1;
+      if (xi >= image.cellData.width) {
+        yi++;
         xi = 0;
       }
     }
@@ -72,12 +95,12 @@ class Image {
    * 
    */
   setCharBackground(int x, int y, Color color, [var flag]) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
+    if (cellData.size.contains(new Vec(x, y)) == false) return;
     // Do nothing
     //if (flag.hashCode == NONE.hashCode);
     // Set the Color
     //else if (flag.hashCode == SET.hashCode || flag == null) {
-    charData.get(x, y).backColor = color;
+    cellData.get(x, y).backColor = color;
     //}
     // TODO implement other color manipulations
   }
@@ -87,8 +110,8 @@ class Image {
    * 
    */
   setCharForeground(int x, int y, Color color, [var flag]) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
-    charData.get(x, y).foreColor = color;
+    if (cellData.size.contains(new Vec(x, y)) == false) return;
+    cellData.get(x, y).foreColor = color;
     // TODO implement other color manipulations
   }
   /**
@@ -96,9 +119,9 @@ class Image {
    * 
    */
   setChar(int x, int y, var char) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
+    if (cellData.size.contains(new Vec(x, y)) == false) return;
     if (char is String) char = char.runes.first;
-    charData.get(x, y).glyph = char;
+    cellData.get(x, y).glyph = char;
   }
 
   /**
@@ -106,12 +129,12 @@ class Image {
    * If no [Color]s are specified, it will use the defaults
    */
   putChar(int x, int y, var char, [Color foreColor, Color backColor]) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
+    if (cellData.size.contains(new Vec(x, y)) == false) return;
     if (char is String) char = char.runes.first;
 
-    if (foreColor != null || backColor != null) charData.get(x, y)
+    if (foreColor != null || backColor != null) cellData.get(x, y)
         ..foreColor = foreColor
         ..backColor = backColor;
-    charData.get(x, y)..glyph = char;
+    cellData.get(x, y)..glyph = char;
   }
 }

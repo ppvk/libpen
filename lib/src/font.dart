@@ -27,7 +27,7 @@ class Font {
   Font(var font, chars_horizontal, chars_vertical) {
     if (font is String) font = new ImageElement(src: font);
 
-    Completer loadc = new Completer();
+    Completer loadingComplete = new Completer();
     // font is properly loaded
     font.onLoad.listen((_) {
       this.char_width = font.width ~/ chars_horizontal;
@@ -58,8 +58,8 @@ class Font {
         iw++;
       }
       ready = true;
-      loadc.complete(true);
+      loadingComplete.complete(true);
     });
-    loaded = loadc.future;
+    loaded = loadingComplete.future;
   }
 }

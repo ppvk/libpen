@@ -64,7 +64,7 @@ console.font.loaded.then((_) {
             pos,
             m.shiftKey,m.altKey,
             console,
-            console.charData.get(pos.x, pos.y)
+            console.cellData.get(pos.x, pos.y)
         )
     );
     m.preventDefault();
@@ -79,7 +79,7 @@ console.font.loaded.then((_) {
             pos,
             m.shiftKey,m.altKey,
             console,
-            console.charData.get(pos.x, pos.y)
+            console.cellData.get(pos.x, pos.y)
         )
     );
     m.preventDefault();
@@ -93,7 +93,7 @@ console.font.loaded.then((_) {
             m.shiftKey,
             m.altKey,
             console,
-            console.charData.get(pos.x, pos.y)
+            console.cellData.get(pos.x, pos.y)
         )
     );
     m.preventDefault();
@@ -107,7 +107,7 @@ class ClickEvent {
   bool shift;
   bool alt;
   Console console;
-  Char char;
+  Cell char;
   ClickEvent(final this.cell,final this.shift,final this.alt,final this.console, this.char);
   @override
   String toString() {

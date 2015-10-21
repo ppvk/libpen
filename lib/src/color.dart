@@ -9,7 +9,6 @@ Color defaultForeground = WHITE;
 /**
  * Handles default colors and manipulation
  * 
- * 
  */ 
 class Color {
   /// Red color value
@@ -58,7 +57,7 @@ class Color {
     this.r = (c1.r + (c2.r - c1.r) * coef).toInt();
     this.g = (c1.g + (c2.g - c1.g) * coef).toInt();
     this.b = (c1.b + (c2.b - c1.b) * coef).toInt();
-    this.a = 255;
+    this.a = (c1.a + (c2.a - c1.a) * coef).toInt();
   }
 }
 

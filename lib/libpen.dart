@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:piecemeal/piecemeal.dart';
 
 part 'src/console.dart';
-part 'src/char.dart';
+part 'src/cell.dart';
 part 'src/mouse.dart';
 part 'src/keyboard.dart';
 part 'src/math.dart';
