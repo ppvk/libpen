@@ -8,7 +8,7 @@ testDraw() {
   html.document.body.append(console.container);
   
   Image i = new Image(10,10);
-  for (Cell char in i.cellData)
+  for (Char char in i.charData)
     char
       ..glyph = 2
       ..backColor = RED;

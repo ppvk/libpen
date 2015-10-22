@@ -7,7 +7,7 @@ import 'package:piecemeal/piecemeal.dart';
 export 'package:piecemeal/piecemeal.dart' show Array2D;
 
 part 'src/console.dart';
-part 'src/cell.dart';
+part 'src/char.dart';
 part 'src/mouse.dart';
 part 'src/keyboard.dart';
 part 'src/math.dart';
