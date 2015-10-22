@@ -15,5 +15,5 @@ testDraw() {
   
   console.drawImage(2, 2, i);
   console.setChar(5, 5, '5');
-  console.flush();  
+  console.flush();
 }
