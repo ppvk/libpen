@@ -42,6 +42,13 @@ class Image {
       ..backColor = Char.DEFAULT_BACKGROUND_COLOR;
   }
 
+  fill() {
+    for (Char char in charData) char
+      ..glyph = 0
+      ..foreColor = Char.DEFAULT_FOREGROUND_COLOR
+      ..backColor = Char.DEFAULT_BACKGROUND_COLOR;
+  }
+
   /** 
    * Draws a [String] of text onto the [Image]
    * 

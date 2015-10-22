@@ -2,10 +2,8 @@ part of libpen;
 
 
 class Char {
-  // Default Color Declaration;
-  static final DEFAULT_FOREGROUND_COLOR = Color.WHITE;
-  static final DEFAULT_BACKGROUND_COLOR = Color.BLACK;
-  List<String> flags = [];
+  // Does this tile need to be updated?
+  bool _dirty = true;
 
   int _glyph;
   get glyph => _glyph;
@@ -27,9 +25,6 @@ class Char {
     _backColor = backColor;
     _dirty = true;
   }
-
-  // Does this tile need to be updated?
-  bool _dirty = true;
 
   Char(this._glyph, this._foreColor, this._backColor,{this.flags});
 
