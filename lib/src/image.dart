@@ -8,14 +8,20 @@ class Image {
   Array2D<Char> charData;
 
   Image(int width, int height, [Color fore, Color back]) {
-    if (fore == null) fore = defaultForeground;
-    charData = new Array2D.generated(width, height, () => new Char(0, defaultForeground, defaultBackground));
+    if (fore == null) fore = Char.DEFAULT_FOREGROUND_COLOR;
+    charData = new Array2D.generated(width, height, () => new Char(0, Char.DEFAULT_FOREGROUND_COLOR, Char.DEFAULT_BACKGROUND_COLOR));
   }
 
+  /**
+   * Creates an [Image] using a subset of another [Image].
+   *
+   * This is useful if you use a large hidden [Image] as the map
+   * but only want to display what a 'camera' would see.
+   */
   Image.from(Image other, {int top, int left, int bottom, int right}) {
     int width = right - left + 1;
     int height = bottom - top + 1;
-    charData = new Array2D.generated(width, height, () => new Char(0, defaultForeground, defaultBackground));
+    charData = new Array2D.generated(width, height, () => new Char(0, Char.DEFAULT_FOREGROUND_COLOR, Char.DEFAULT_BACKGROUND_COLOR));
 
     for (int x = width-1; x>=0 ;x--)
       for (int y = height-1; y>=0 ;y--){
@@ -32,8 +38,8 @@ class Image {
   clear() {
     for (Char char in charData) char
       ..glyph = 0
-      ..foreColor = defaultForeground
-      ..backColor = defaultBackground;
+      ..foreColor = Char.DEFAULT_FOREGROUND_COLOR
+      ..backColor = Char.DEFAULT_BACKGROUND_COLOR;
   }
 
   /** 

@@ -10,6 +10,8 @@ Random r = new Random();
 main() {  
   testColors();
   testDraw();
+
+  Mouse.sharedInstance().onClick.listen(print);
 }
 
 frame(Console console) {
