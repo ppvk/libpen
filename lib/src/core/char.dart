@@ -26,9 +26,9 @@ class Char {
     _dirty = true;
   }
 
-  Char(this._glyph, this._foreColor, this._backColor,{this.flags});
+  Char(this._glyph, this._foreColor, this._backColor);
 
   Char clone() {
-    return new Char(glyph, foreColor, backColor, flags: flags);
+    return new Char(glyph, foreColor, backColor);
   }
 }

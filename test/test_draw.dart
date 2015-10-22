@@ -10,25 +10,29 @@ testDraw() {
   Image i = new Image(60,52);
   for (Char char in i.charData)
     char
-      ..backColor = Color.RED;
+      ..backColor = Color.RED
+      ..glyph = '#'.codeUnitAt(0);
 
   Field background = new Field(58, 50)
     ..x = 1
     ..y = 1
     ..image = i;
 
+  ScrollField window = new ScrollField(20,10)
+    ..x = 10
+    ..y = 10;
 
-  Image j = new Image(52,60);
-  for (Char char in j.charData)
-    char
-      ..backColor = Color.BLUE;
+  background.append(window);
 
-  Field window = new Field(10,10)
-    ..image = j
-    ..x = 1
-    ..y = 1;
+  Image text = new Image(19, 20)
+    ..drawText(0,0,'Hello There fellas, I am the turtle dove master', 19);
 
-  background.children.add(window);
+  Color.DEFAULT_BACKGROUND_COLOR = Color.AMBER;
+  Field textField = new Field(19,20)
+    ..image = text;
+  Color.DEFAULT_BACKGROUND_COLOR = Color.BLACK;
+
+  window.append(textField);
 
   console.drawImage(background.x,background.y, background.render());
   console.flush();

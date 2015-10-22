@@ -92,21 +92,4 @@ class Color {
     this.b = (c1.b + (c2.b - c1.b) * coef).toInt();
     this.a = (c1.a + (c2.a - c1.a) * coef).toInt();
   }
-
-
-  // COLOR CHANGE FLAGS TODO
-  final NONE = new Object();
-  final SET = new Object();
-  final MULTIPLY = new Object();
-  final LIGHTEN = new Object();
-  final DARKEN = new Object();
-  final SCREEN = new Object();
-  final COLOR_DODGE = new Object();
-  final COLOR_BURN = new Object();
-  final ADD = new Object();
-  final ADDALPHA = new Object();
-  final BURN = new Object();
-  final OVERLAY = new Object();
-  final ALPHA = new Object();
-  final DEFAULT = new Object();
 }

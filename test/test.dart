@@ -8,7 +8,6 @@ part 'test_color.dart';
 part 'test_draw.dart';
 
 Random r = new Random();
-Renderer renderer;
 
 main() {  
   testColors();

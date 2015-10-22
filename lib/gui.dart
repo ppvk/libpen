@@ -2,4 +2,4 @@ library gui;
 import 'dart:async';
 import 'package:libpen/libpen.dart';
 
-part 'src/scene/renderer.dart';
+part 'src/scene/field.dart';

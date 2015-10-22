@@ -8,8 +8,8 @@ class Image {
   Array2D<Char> charData;
 
   Image(int width, int height, [Color fore, Color back]) {
-    if (fore == null) fore = Char.DEFAULT_FOREGROUND_COLOR;
-    charData = new Array2D.generated(width, height, () => new Char(0, Char.DEFAULT_FOREGROUND_COLOR, Char.DEFAULT_BACKGROUND_COLOR));
+    if (fore == null) fore = Color.DEFAULT_FOREGROUND_COLOR;
+    charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
   }
 
   /**
@@ -21,7 +21,7 @@ class Image {
   Image.from(Image other, {int top, int left, int bottom, int right}) {
     int width = right - left + 1;
     int height = bottom - top + 1;
-    charData = new Array2D.generated(width, height, () => new Char(0, Char.DEFAULT_FOREGROUND_COLOR, Char.DEFAULT_BACKGROUND_COLOR));
+    charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
 
     for (int x = width-1; x>=0 ;x--)
       for (int y = height-1; y>=0 ;y--){
@@ -38,15 +38,15 @@ class Image {
   clear() {
     for (Char char in charData) char
       ..glyph = 0
-      ..foreColor = Char.DEFAULT_FOREGROUND_COLOR
-      ..backColor = Char.DEFAULT_BACKGROUND_COLOR;
+      ..foreColor = Color.DEFAULT_FOREGROUND_COLOR
+      ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
   }
 
   fill() {
     for (Char char in charData) char
       ..glyph = 0
-      ..foreColor = Char.DEFAULT_FOREGROUND_COLOR
-      ..backColor = Char.DEFAULT_BACKGROUND_COLOR;
+      ..foreColor = Color.DEFAULT_FOREGROUND_COLOR
+      ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
   }
 
   /** 
@@ -107,26 +107,20 @@ class Image {
    * Change only the background color of a cell
    * 
    */
-  setCharBackground(int x, int y, Color color, [var flag]) {
+  setCharBackground(int x, int y, Color color) {
     if (charData.size.contains(new Vec(x, y)) == false) return;
-    // Do nothing
-    //if (flag.hashCode == NONE.hashCode);
-    // Set the Color
-    //else if (flag.hashCode == SET.hashCode || flag == null) {
     charData.get(x, y).backColor = color;
-    //}
-    // TODO implement other color manipulations
   }
 
   /**
    * Change only the foreground color of a cell
    * 
    */
-  setCharForeground(int x, int y, Color color, [var flag]) {
+  setCharForeground(int x, int y, Color color) {
     if (charData.size.contains(new Vec(x, y)) == false) return;
     charData.get(x, y).foreColor = color;
-    // TODO implement other color manipulations
   }
+
   /**
    * Change only the ASCII code of a cell
    * 
