@@ -42,6 +42,7 @@ class Image {
       ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
   }
 
+  //TODO fill the image with a color, glyph, or foreground color.
   fill() {
     for (Char char in charData) char
       ..glyph = 0

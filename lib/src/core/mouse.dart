@@ -17,12 +17,12 @@ class Mouse {
   /// The cursor's visibility.
   bool hidden = false;
 
-  StreamController _onClick = new StreamController();
-  StreamController _onRightClick = new StreamController();
-  StreamController _onDoubleClick = new StreamController();
-  StreamController _onMiddleClick = new StreamController();
-  StreamController _onWheelUp = new StreamController();
-  StreamController _onWheelDown = new StreamController();
+  StreamController _onClick = new StreamController.broadcast();
+  StreamController _onRightClick = new StreamController.broadcast();
+  StreamController _onDoubleClick = new StreamController.broadcast();
+  StreamController _onMiddleClick = new StreamController.broadcast();
+  StreamController _onWheelUp = new StreamController.broadcast();
+  StreamController _onWheelDown = new StreamController.broadcast();
 
   Stream get onClick => _onClick.stream;
   Stream get onRightClick => _onRightClick.stream;

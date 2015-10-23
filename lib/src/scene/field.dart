@@ -1,5 +1,20 @@
 part of gui;
 
+class Root extends Field {
+  Console console;
+  Root(width, height) : super(width, height) {
+    console = new Console(width, height);
+    update();
+  }
+
+  update() {
+    html.window.requestAnimationFrame((_) {
+      console.drawImage(x,y, render());
+      console.flush();
+      update();
+    });
+  }
+}
 
 
 
@@ -18,9 +33,19 @@ class ScrollField extends Field {
       ..drawText(width - 1, 0, '+')
       ..drawText(width - 1, height - 1, '-');
     _children.add(_proxy);
+
+    Mouse.sharedInstance().onClick.listen((ClickEvent e) {
+      if (e.char == new Point(x + width, y + 1)) {
+        for (Field child in children)
+          child.y += 1;
+      }
+      if (e.char == new Point(x + width, y + height)) {
+        for (Field child in children)
+          child.y -= 1;
+      }
+    });
   }
 }
-
 
 
 /**
@@ -56,6 +81,7 @@ class Field {
   }
 
   // querying, adding, and removing children.
+
   get children => _children.toList(growable: false);
   append(Field other) {
     _children.add(other);
