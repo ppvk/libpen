@@ -54,7 +54,6 @@ class Color {
   /// A representation of color in rgb format.
   Color(this.r, this.g, this.b);
   // TODO add a Hex color constructor.
-  // we are web developers afterall..
 
   /// Multiplies two colors together.
   Color operator *(Color other) {
@@ -84,7 +83,7 @@ class Color {
 
   @override
   /// Returns rgba as an appended integer.
-  get hashCode => int.parse('$r,$g,$b');
+  get hashCode => int.parse('$r$g$b');
 
   String toString() {
     return 'rgba(' + r.toString() + ',' + g.toString() + ',' + b.toString() + ')';

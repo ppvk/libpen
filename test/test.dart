@@ -8,7 +8,7 @@ import "package:test/test.dart";
 
 main() {
 
-  group("Colors", () {
+  group("Color", () {
 
     test("creation via RGBA", () {
       Color testColor = new Color(1,2,3);
