@@ -5,11 +5,11 @@ part of libpen;
  *  TODO: make this poolable
  */
 class Image {
-  Array2D<Char> charData;
+  Array2D<Char> _charData;
 
   Image(int width, int height, [Color fore, Color back]) {
     if (fore == null) fore = Color.DEFAULT_FOREGROUND_COLOR;
-    charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
+    _charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
   }
 
   /**
@@ -21,12 +21,12 @@ class Image {
   Image.from(Image other, {int top, int left, int bottom, int right}) {
     int width = right - left + 1;
     int height = bottom - top + 1;
-    charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
+    _charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
 
     for (int x = width-1; x>=0 ;x--)
       for (int y = height-1; y>=0 ;y--){
-        Char otherChar = other.charData.get(left + x, top + y);
-        charData.set(x, y, otherChar.clone());
+        Char otherChar = other._charData.get(left + x, top + y);
+        _charData.set(x, y, otherChar._clone());
       }
   }
 
@@ -36,7 +36,7 @@ class Image {
    * Changes will not be seen until the [Console] is flushed.
    */
   clear() {
-    for (Char char in charData) char
+    for (Char char in _charData) char
       ..glyph = 0
       ..foreColor = Color.DEFAULT_FOREGROUND_COLOR
       ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
@@ -44,7 +44,7 @@ class Image {
 
   //TODO fill the image with a color, glyph, or foreground color.
   fill() {
-    for (Char char in charData) char
+    for (Char char in _charData) char
       ..glyph = 0
       ..foreColor = Color.DEFAULT_FOREGROUND_COLOR
       ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
@@ -78,7 +78,7 @@ class Image {
     for (String l in lines) {
       l = l.trim();
       for (int rune in l.runes) {
-        setChar(x + xi, y + yi, rune);
+        setGlyph(x + xi, y + yi, rune);
         xi++;
       }
       yi += 1;
@@ -87,17 +87,17 @@ class Image {
   }
 
   /** 
-   * Draws an [Image] of onto an [Image] at x and y.
-   * 
+   * Draws an [Image] onto an [Image] at x and y.
+   * Out of bounds cells are ignored.
    */
   drawImage(int x, int y, Image image) {
-    this.charData;
+    this._charData;
     int xi = 0;
     int yi = 0;
-    for (Char char in image.charData) {
+    for (Char char in image._charData) {
       this.putChar(x + xi, y + yi, char.glyph, char.foreColor, char.backColor);
       xi++;
-      if (xi >= image.charData.width) {
+      if (xi >= image._charData.width) {
         yi++;
         xi = 0;
       }
@@ -108,28 +108,28 @@ class Image {
    * Change only the background color of a cell
    * 
    */
-  setCharBackground(int x, int y, Color color) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
-    charData.get(x, y).backColor = color;
+  setBackground(int x, int y, Color color) {
+    if (_charData.size.contains(new Vec(x, y)) == false) return;
+    _charData.get(x, y).backColor = color;
   }
 
   /**
    * Change only the foreground color of a cell
    * 
    */
-  setCharForeground(int x, int y, Color color) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
-    charData.get(x, y).foreColor = color;
+  setForeground(int x, int y, Color color) {
+    if (_charData.size.contains(new Vec(x, y)) == false) return;
+    _charData.get(x, y).foreColor = color;
   }
 
   /**
    * Change only the ASCII code of a cell
-   * 
+   *
    */
-  setChar(int x, int y, var char) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
+  setGlyph(int x, int y, var char) {
+    if (_charData.size.contains(new Vec(x, y)) == false) return;
     if (char is String) char = char.runes.first;
-    charData.get(x, y).glyph = char;
+    _charData.get(x, y).glyph = char;
   }
 
   /**
@@ -137,12 +137,12 @@ class Image {
    * If no [Color]s are specified, it will use the defaults
    */
   putChar(int x, int y, var char, [Color foreColor, Color backColor]) {
-    if (charData.size.contains(new Vec(x, y)) == false) return;
+    if (_charData.size.contains(new Vec(x, y)) == false) return;
     if (char is String) char = char.runes.first;
 
-    if (foreColor != null || backColor != null) charData.get(x, y)
+    if (foreColor != null || backColor != null) _charData.get(x, y)
         ..foreColor = foreColor
         ..backColor = backColor;
-    charData.get(x, y)..glyph = char;
+    _charData.get(x, y)..glyph = char;
   }
 }

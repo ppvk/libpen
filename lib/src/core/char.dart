@@ -1,8 +1,9 @@
 part of libpen;
 
 // TODO make poolable.
+/// [Char]s represent a cell of an [Image] or [Terminal]. *
 class Char {
-  // Does this tile need to be updated?
+  // _dirty is a flag that tells the console this cell needs to be updated.
   bool _dirty = true;
 
   int _glyph;
@@ -26,9 +27,10 @@ class Char {
     _dirty = true;
   }
 
-  Char(this._glyph, this._foreColor, this._backColor);
+  // Chars do not have a default constructor, because the end user shouldn't be creating them.
+  Char._(this._glyph, this._foreColor, this._backColor);
 
-  Char clone() {
+  Char _clone() {
     return new Char(glyph, foreColor, backColor);
   }
 }

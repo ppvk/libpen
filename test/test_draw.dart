@@ -9,7 +9,7 @@ testDraw() {
   html.document.body.append(console.container);
 
   Image i = new Image(60,52);
-  for (Char char in i.charData)
+  for (Char char in i._charData)
     char
       ..backColor = Color.RED
       ..glyph = '#'.codeUnitAt(0);
