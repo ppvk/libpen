@@ -82,12 +82,18 @@ class Field {
 
   // querying, adding, and removing children.
 
+  get parent => _parent;
+  Field _parent;
+
   get children => _children.toList(growable: false);
+
   append(Field other) {
     _children.add(other);
+    other._parent = this;
   }
   remove(Field other) {
     _children.remove(other);
+    other._parent = null;
   }
 }
 
