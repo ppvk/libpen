@@ -42,12 +42,17 @@ class Image {
       ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
   }
 
-  //TODO fill the image with a color, glyph, or foreground color.
-  fill() {
-    for (Char char in _charData) char
-      ..glyph = 0
-      ..foreColor = Color.DEFAULT_FOREGROUND_COLOR
-      ..backColor = Color.DEFAULT_BACKGROUND_COLOR;
+  /**
+   * Sets every cell to a specified glyph/color.
+   *
+   * Changes will not be seen until the [Console] is flushed.
+   */
+  fill({glyph, foreColor, backColor}) {
+    for (Char char in _charData) {
+      if (glyph != null) char.glyph = glyph;
+      if (foreColor != null) char.foreColor = foreColor;
+      if (backColor != null) char.backColor = backColor;
+    }
   }
 
   /** 
