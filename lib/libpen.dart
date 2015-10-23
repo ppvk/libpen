@@ -3,7 +3,7 @@ import 'dart:html';
 import 'dart:math';
 import 'dart:async';
 
-import 'package:piecemeal/piecemeal.dart';
+import 'package:piecemeal/piecemeal.dart'; //TODO we only use one class from piecemeal, It may be a good idea to reimplement it ourself.
 export 'package:piecemeal/piecemeal.dart' show Array2D;
 
 part 'src/core/console.dart';

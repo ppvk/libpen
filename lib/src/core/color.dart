@@ -42,7 +42,8 @@ class Color {
   static final Color PINK = new Color(255, 0, 127);
   static final Color CRIMSON = new Color(255, 0, 63);
 
-  // Default Color Declaration;
+  // Default Color Declaration
+  // May be changed by the user.
   static Color DEFAULT_FOREGROUND_COLOR = Color.WHITE;
   static Color DEFAULT_BACKGROUND_COLOR = Color.BLACK;
 

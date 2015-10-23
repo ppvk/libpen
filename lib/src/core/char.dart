@@ -1,6 +1,6 @@
 part of libpen;
 
-
+// TODO make poolable.
 class Char {
   // Does this tile need to be updated?
   bool _dirty = true;

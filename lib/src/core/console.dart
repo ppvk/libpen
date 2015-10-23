@@ -2,12 +2,11 @@ part of libpen;
 
 /// A representation of a text-based console.
 class Console extends Image {
-  DivElement container;
+  DivElement container; //TODO, perhaps unnecessary
   CanvasElement _canvas;
   Font font;
   int x_in_chars;
   int y_in_chars;
-
 
   Console(int width, int height, [Font font]) : super(width, height) {
     if (font == null) this.font = defaultFont; else this.font = font;
