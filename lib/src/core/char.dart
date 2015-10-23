@@ -31,6 +31,6 @@ class Char {
   Char._(this._glyph, this._foreColor, this._backColor);
 
   Char _clone() {
-    return new Char(glyph, foreColor, backColor);
+    return new Char._(glyph, foreColor, backColor);
   }
 }

@@ -9,10 +9,7 @@ testDraw() {
   html.document.body.append(console.container);
 
   Image i = new Image(60,52);
-  for (Char char in i._charData)
-    char
-      ..backColor = Color.RED
-      ..glyph = '#'.codeUnitAt(0);
+  i.fill(glyph:5 ,foreColor: Color.BLACK, backColor: Color.RED);
 
   Field background = new Field(58, 50)
     ..x = 1
@@ -22,11 +19,10 @@ testDraw() {
   ScrollField window = new ScrollField(20,10)
     ..x = 10
     ..y = 10;
-
   background.append(window);
 
   Image text = new Image(19, 20)
-    ..drawText(0,0,'Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master Hello There fellas, I am the turtle dove master ', 19);
+    ..drawText(0,0,'Hello There fellas, I am the turtle dove master', 19);
 
   Field textField = new Field(19,20)
     ..image = text;

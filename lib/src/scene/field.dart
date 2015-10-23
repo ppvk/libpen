@@ -17,11 +17,8 @@ class Root extends Field {
 }
 
 
-
 class ScrollField extends Field {
   Field _proxy;
-  Image _chrome;
-
   @override get children => _proxy.children;
   @override append(Field other) => _proxy.append(other);
   @override remove(Field other) => _proxy.remove(other);

@@ -9,7 +9,7 @@ class Image {
 
   Image(int width, int height, [Color fore, Color back]) {
     if (fore == null) fore = Color.DEFAULT_FOREGROUND_COLOR;
-    _charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
+    _charData = new Array2D.generated(width, height, () => new Char._(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
   }
 
   /**
@@ -21,7 +21,7 @@ class Image {
   Image.from(Image other, {int top, int left, int bottom, int right}) {
     int width = right - left + 1;
     int height = bottom - top + 1;
-    _charData = new Array2D.generated(width, height, () => new Char(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
+    _charData = new Array2D.generated(width, height, () => new Char._(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
 
     for (int x = width-1; x>=0 ;x--)
       for (int y = height-1; y>=0 ;y--){
@@ -100,7 +100,7 @@ class Image {
     int xi = 0;
     int yi = 0;
     for (Char char in image._charData) {
-      this.putChar(x + xi, y + yi, char.glyph, char.foreColor, char.backColor);
+      this.put(x + xi, y + yi, char.glyph, char.foreColor, char.backColor);
       xi++;
       if (xi >= image._charData.width) {
         yi++;
@@ -141,7 +141,7 @@ class Image {
    * Change cell to char and sets it's coloration
    * If no [Color]s are specified, it will use the defaults
    */
-  putChar(int x, int y, var char, [Color foreColor, Color backColor]) {
+  put(int x, int y, var char, [Color foreColor, Color backColor]) {
     if (_charData.size.contains(new Vec(x, y)) == false) return;
     if (char is String) char = char.runes.first;
 
@@ -149,5 +149,13 @@ class Image {
         ..foreColor = foreColor
         ..backColor = backColor;
     _charData.get(x, y)..glyph = char;
+  }
+
+  /**
+   * Returns a [Char] object representing the glyph/color combination at that position.
+   *
+   */
+  get(int x, int y) {
+    return _charData.get(x,y)._clone();
   }
 }

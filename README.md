@@ -19,12 +19,12 @@ Simple setup:
 Easy use:
 
     //change a cell.
-    console.setChar(5,5,'@');
-    console.setCharForeground(5,5,RED);
-    console.setCharBackground(5,5,GREEN);
+    console.setGlyph(5,5,'@');
+    console.setForeground(5,5, Color.RED);
+    console.setBackground(5,5, Color.GREEN);
     
     //or alternatively:
-    console.putChar(5,5,'@',RED,GREEN);
+    console.put(5,5,'@',Color.RED,Color.GREEN);
     
     //flush the changes to the console.
     console.flush();
@@ -34,4 +34,6 @@ Easy use:
 Small features: 
 
 * Canvas coordinate mouse support
-* String drawing with word wrap
+* String drawing with simple word wrap
+* User defined Bitmap Fonts
+* Included IBM Code Page 437

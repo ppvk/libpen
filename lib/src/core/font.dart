@@ -40,6 +40,8 @@ class Font {
           iw = 0;
           ih++;
         }
+        // TODO Instead of creating canvases for each glyph, we should store Rectangles and blit from the main image.
+        // Elements are memory heavy, compared to 4 ints.
         CanvasElement glyph = new CanvasElement();
         glyph
             ..width = char_width
