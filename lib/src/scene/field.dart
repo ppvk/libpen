@@ -27,16 +27,26 @@ class ScrollField extends Field {
   ScrollField(width, height) : super(width, height) {
     _proxy = new Field(width - 1, height);
     image = new Image(width, height)
-      ..drawText(width - 1, 0, '+')
-      ..drawText(width - 1, height - 1, '-');
+      ..setGlyph(width - 1, 0, 30)
+      ..setGlyph(width - 1, height - 1, 31);
+
+    for (int i = height-1; i>=0 ; i--) {
+      image.setBackground(width - 1, i, new Color.interpolate(
+          image.get(width - 1, i).backColor,
+          image.get(width - 1, i).foreColor,
+          0.2
+        )
+      );
+    }
     _children.add(_proxy);
 
-    Mouse.sharedInstance().onClick.listen((ClickEvent e) {
-      if (e.char == new Point(x + width, y + 1)) {
+    // Controls
+    Mouse.onClick.listen((ClickEvent e) {
+      if (e.position == new Point(x + width, y + 1)) {
         for (Field child in children)
           child.y += 1;
       }
-      if (e.char == new Point(x + width, y + height)) {
+      if (e.position == new Point(x + width, y + height)) {
         for (Field child in children)
           child.y -= 1;
       }

@@ -8,6 +8,7 @@ class Color {
   // DEFAULT COLORS
   static final Color BLACK = new Color(0, 0, 0);
   static final Color GREY = new Color(127, 127, 127);
+  static get GRAY => GREY;
   static final Color SEPIA = new Color(127, 101, 63);
   static final Color WHITE = new Color(255, 255, 255);
   static final Color TRANSPARENT = new Color(0,0,0,0);
@@ -48,10 +49,12 @@ class Color {
   static Color DEFAULT_BACKGROUND_COLOR = Color.BLACK;
 
   /// rgba values
-  int r, g, b, a;
+  int r, g, b;
 
   /// A representation of color in rgb format.
-  Color(this.r, this.g, this.b, [this.a = 255]);
+  Color(this.r, this.g, this.b);
+  // TODO add a Hex color constructor.
+  // we are web developers afterall..
 
   /// Multiplies two colors together.
   Color operator *(Color other) {
@@ -81,16 +84,15 @@ class Color {
 
   @override
   /// Returns rgba as an appended integer.
-  get hashCode => int.parse('$r$g$b$a');
+  get hashCode => int.parse('$r,$g,$b');
 
   String toString() {
-    return 'rgba(' + r.toString() + ',' + g.toString() + ',' + b.toString() + ',' + a.toString() + ')';
+    return 'rgba(' + r.toString() + ',' + g.toString() + ',' + b.toString() + ')';
   }
 
   Color.interpolate(Color c1, Color c2, num coef) {
     this.r = (c1.r + (c2.r - c1.r) * coef).toInt();
     this.g = (c1.g + (c2.g - c1.g) * coef).toInt();
     this.b = (c1.b + (c2.b - c1.b) * coef).toInt();
-    this.a = (c1.a + (c2.a - c1.a) * coef).toInt();
   }
 }

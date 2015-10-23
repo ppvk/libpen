@@ -9,7 +9,7 @@ testDraw() {
   html.document.body.append(console.container);
 
   Image i = new Image(60,52);
-  i.fill(glyph:5 ,foreColor: Color.BLACK, backColor: Color.RED);
+  i.fill(glyph:9 ,foreColor: Color.BLACK, backColor: Color.RED);
 
   Field background = new Field(58, 50)
     ..x = 1

@@ -2,6 +2,7 @@ packages
 out
 .idea
 .packages
+.pub
 pubspec.lock
 build
 .buildlog

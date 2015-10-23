@@ -1,7 +1,7 @@
 part of libpen;
 
 /// the default font that comes with libpen.
-final defaultFont = new Font(new ImageElement(src: 'packages/libpen/font.png'), 16, 16);
+final defaultFont = new Font(new ImageElement(src: 'packages/libpen/font/font.png'), 16, 16);
 
 /**
  * Handles font loading and rendering

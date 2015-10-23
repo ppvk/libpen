@@ -1,58 +1,58 @@
 part of libpen;
 
+/// TODO
+/// Since we allow the user to have multiple consoles, we should isolate Mouse and Keyboard instances to a particular console.
+/// That way clicking on one won't trigger events on the other.
+
 /**
  * A representation of a user's pointing mechanism.
  * 
  * Only registers events when the target is a Console. 
  */
 class Mouse {
-  //Reusable mouse object.
-  static Mouse _mouse;
-
-  StyleElement _mouseStyle;
+  static StyleElement _mouseStyle;
 
   /// The cursor's style, can be any string assignable to the CSS property 'cursor'.
-  String cursor = 'default';
+  static String cursor = 'default';
 
   /// The cursor's visibility.
-  bool hidden = false;
+  static bool hidden = false;
 
-  StreamController _onClick = new StreamController.broadcast();
-  StreamController _onRightClick = new StreamController.broadcast();
-  StreamController _onDoubleClick = new StreamController.broadcast();
-  StreamController _onMiddleClick = new StreamController.broadcast();
-  StreamController _onWheelUp = new StreamController.broadcast();
-  StreamController _onWheelDown = new StreamController.broadcast();
+  static StreamController _onClick = new StreamController.broadcast();
+  static StreamController _onRightClick = new StreamController.broadcast();
+  static StreamController _onDoubleClick = new StreamController.broadcast();
+  static StreamController _onMiddleClick = new StreamController.broadcast();
+  static StreamController _onWheelUp = new StreamController.broadcast();
+  static StreamController _onWheelDown = new StreamController.broadcast();
 
-  Stream get onClick => _onClick.stream;
-  Stream get onRightClick => _onRightClick.stream;
-  Stream get onDoubleClick => _onDoubleClick.stream;
-  Stream get onMiddleClick => _onMiddleClick.stream;
-  Stream get onWheelUp => _onWheelUp.stream;
-  Stream get onWheelDown => _onWheelDown.stream;
+  static Stream get onClick => _onClick.stream;
+  static Stream get onRightClick => _onRightClick.stream;
+  static Stream get onDoubleClick => _onDoubleClick.stream;
+  static Stream get onMiddleClick => _onMiddleClick.stream;
+  static Stream get onWheelUp => _onWheelUp.stream;
+  static Stream get onWheelDown => _onWheelDown.stream;
 
-  Mouse._new();
-
-  static Mouse sharedInstance() {
-    if (_mouse == null) {
-      _mouse = new Mouse._new();
-      _mouse._mouseStyle = new StyleElement();
-      document.head.append(_mouse._mouseStyle);
+  static _addStyleIfAbsent() {
+    if (_mouseStyle == null) {
+      _mouseStyle = new StyleElement();
+      document.head.append(_mouseStyle);
     }
-    return _mouse;
   }
 
-
-  hide() {
+  static hide() {
+    _addStyleIfAbsent();
     hidden = true;
     _mouseStyle.text = '.libpen-console{cursor:none;}';
   }
 
-  show() {
+  static show() {
+    _addStyleIfAbsent();
     hidden = false;
     _mouseStyle.text = '.libpen-console{cursor:' + cursor + ';}';
   }
 }
+
+//TODO add hover events.
 
 // sets up event listeners for a Console
 _consoleListeners(Console console) {
@@ -61,7 +61,7 @@ _consoleListeners(Console console) {
     // Handle Right Clicks
     console.container.onContextMenu.listen((MouseEvent m) {
       Rectangle containerRect = console.container.getBoundingClientRect();
-      Mouse.sharedInstance()._onRightClick.add(new ClickEvent(
+      Mouse._onRightClick.add(new ClickEvent(
           new Point(
               (m.client.x - containerRect.left) ~/ console.font.char_width,
               (m.client.y - containerRect.top) ~/ console.font.char_height),
@@ -74,7 +74,7 @@ _consoleListeners(Console console) {
     // Handle Normal Clicks
     console.container.onClick.listen((MouseEvent m) {
       Rectangle containerRect = console.container.getBoundingClientRect();
-      Mouse.sharedInstance()._onClick.add(new ClickEvent(
+      Mouse._onClick.add(new ClickEvent(
           new Point(
               (m.client.x - containerRect.left) ~/ console.font.char_width,
               (m.client.y - containerRect.top) ~/ console.font.char_height),
@@ -87,7 +87,7 @@ _consoleListeners(Console console) {
     // Handle Double Clicks
     console.container.onDoubleClick.listen((MouseEvent m) {
       Rectangle containerRect = console.container.getBoundingClientRect();
-      Mouse.sharedInstance()._onDoubleClick.add(new ClickEvent(
+      Mouse._onDoubleClick.add(new ClickEvent(
           new Point(
               (m.client.x - containerRect.left) ~/ console.font.char_width,
               (m.client.y - containerRect.top) ~/ console.font.char_height),
@@ -97,18 +97,20 @@ _consoleListeners(Console console) {
       m.preventDefault();
     });
   });
+  Mouse.show();
 }
 
+
 class ClickEvent {
-  Point char;
+  Point position;
   bool shift;
   bool alt;
   Console console;
 
-  ClickEvent(final this.char, final this.shift, final this.alt, final this.console);
+  ClickEvent(final this.position, final this.shift, final this.alt, final this.console);
 
   @override
   String toString() {
-    return 'x:${char.x}, y:${char.y}, shift:$shift, alt:$alt, Console id ${console.hashCode}';
+    return 'x:${position.x}, y:${position.y}, shift:$shift, alt:$alt, Console id ${console.hashCode}';
   }
 }

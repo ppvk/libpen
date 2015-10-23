@@ -1,7 +1,6 @@
-library gui;
-import 'dart:async';
+library libpen.gui;
 import 'dart:math';
 import 'dart:html' as html;
-import 'package:libpen/libpen.dart';
+import 'package:libpen/console.dart';
 
 part 'src/scene/field.dart';
