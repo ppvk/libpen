@@ -86,7 +86,7 @@ class Color {
   get hashCode => int.parse('$r$g$b');
 
   String toString() {
-    return 'rgba(' + r.toString() + ',' + g.toString() + ',' + b.toString() + ')';
+    return 'rgb(' + r.toString() + ',' + g.toString() + ',' + b.toString() + ')';
   }
 
   Color.interpolate(Color c1, Color c2, num coef) {

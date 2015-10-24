@@ -1,7 +1,7 @@
 part of libpen;
 
 // TODO make poolable.
-/// [Char]s represent a cell of an [Image] or [Terminal]. *
+/// [Char]s represent a cell of an [Image] or [Terminal].
 class Char {
   // _dirty is a flag that tells the console this cell needs to be updated.
   bool _dirty = true;
@@ -25,6 +25,11 @@ class Char {
   set backColor(Color backColor) {
     _backColor = backColor;
     _dirty = true;
+  }
+
+  @override
+  String toString() {
+    return new String.fromCharCode(glyph);
   }
 
   // Chars do not have a default constructor, because the end user shouldn't be creating them.

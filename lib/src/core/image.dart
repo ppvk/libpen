@@ -7,6 +7,9 @@ part of libpen;
 class Image {
   Array2D<Char> _charData;
 
+  get width => _charData.width;
+  get height => _charData.height;
+
   Image(int width, int height, [Color fore, Color back]) {
     if (fore == null) fore = Color.DEFAULT_FOREGROUND_COLOR;
     _charData = new Array2D.generated(width, height, () => new Char._(0, Color.DEFAULT_FOREGROUND_COLOR, Color.DEFAULT_BACKGROUND_COLOR));
@@ -48,6 +51,8 @@ class Image {
    * Changes will not be seen until the [Console] is flushed.
    */
   fill({glyph, foreColor, backColor}) {
+    if (glyph is String) glyph = glyph.runes.first;
+
     for (Char char in _charData) {
       if (glyph != null) char.glyph = glyph;
       if (foreColor != null) char.foreColor = foreColor;
@@ -55,12 +60,12 @@ class Image {
     }
   }
 
-  /** 
+  /**
    * Draws a [String] of text onto the [Image]
-   * 
+   *
    * If max_length is defined, words that will go past that point
    * will wrap to the next line.
-   * 
+   *
    */
   drawText(int x, int y, String text, [int max_length = 0]) {
     List words = text.split(' ');
@@ -91,7 +96,7 @@ class Image {
     }
   }
 
-  /** 
+  /**
    * Draws an [Image] onto an [Image] at x and y.
    * Out of bounds cells are ignored.
    */
@@ -111,7 +116,7 @@ class Image {
 
   /**
    * Change only the background color of a cell
-   * 
+   *
    */
   setBackground(int x, int y, Color color) {
     if (_charData.size.contains(new Vec(x, y)) == false) return;
@@ -120,7 +125,7 @@ class Image {
 
   /**
    * Change only the foreground color of a cell
-   * 
+   *
    */
   setForeground(int x, int y, Color color) {
     if (_charData.size.contains(new Vec(x, y)) == false) return;
@@ -131,24 +136,23 @@ class Image {
    * Change only the ASCII code of a cell
    *
    */
-  setGlyph(int x, int y, var char) {
+  setGlyph(int x, int y, var glyph) {
     if (_charData.size.contains(new Vec(x, y)) == false) return;
-    if (char is String) char = char.runes.first;
-    _charData.get(x, y).glyph = char;
+    if (glyph is String) glyph = glyph.runes.first;
+    _charData.get(x, y).glyph = glyph;
   }
 
   /**
    * Change cell to char and sets it's coloration
    * If no [Color]s are specified, it will use the defaults
    */
-  put(int x, int y, var char, [Color foreColor, Color backColor]) {
+  put(int x, int y, var glyph, [Color foreColor, Color backColor]) {
     if (_charData.size.contains(new Vec(x, y)) == false) return;
-    if (char is String) char = char.runes.first;
-
+    if (glyph is String) glyph = glyph.runes.first;
     if (foreColor != null || backColor != null) _charData.get(x, y)
         ..foreColor = foreColor
         ..backColor = backColor;
-    _charData.get(x, y)..glyph = char;
+    _charData.get(x, y)..glyph = glyph;
   }
 
   /**
