@@ -7,15 +7,18 @@ class Console extends Image {
   int x_in_chars;
   int y_in_chars;
 
+  Mouse mouse;
+
   Console(int width, int height, [Font font]) : super(width, height) {
     if (font == null) this.font = defaultFont;
     else this.font = font;
 
     container = new CanvasElement()
       ..classes.add('libpen-console')
+      ..classes.add('console-${hashCode}')
       ..context2D.imageSmoothingEnabled = false;
 
-    _consoleListeners(this);
+    mouse = new Mouse._(this);
 
     // once the font is loaded we'll use it to scale our canvas.
     this.font.loaded.then((_) {

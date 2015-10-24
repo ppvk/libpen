@@ -1,6 +1,5 @@
 part of libpen;
 
-//TODO apply this strategy to the Mouse object
 class Keyboard {
   Map<int, bool> _keyDownMap = new Map<int, bool>();
 
