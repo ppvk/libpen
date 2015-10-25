@@ -1,8 +1,5 @@
 @TestOn("browser")
-import 'dart:html' as html;
-
 import 'package:libpen/console.dart';
-import 'package:libpen/gui.dart';
 
 import "package:test/test.dart";
 

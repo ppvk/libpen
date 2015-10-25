@@ -1,4 +1,4 @@
-part of libpen;
+part of libpen.console;
 
 /**
  * A representation of a user's pointing mechanism.

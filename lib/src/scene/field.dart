@@ -1,4 +1,4 @@
-part of gui;
+part of libpen.gui;
 
 class Root extends Field {
   Console console;

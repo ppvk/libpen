@@ -1,4 +1,4 @@
-part of libpen;
+part of libpen.console;
 
 /// A representation of a text-based console.
 class Console extends Image {
@@ -36,8 +36,14 @@ class Console extends Image {
         for (int y = _charData.height - 1; y >= 0; y--) {
           if (_charData.get(x, y)._dirty) {
             _charData.get(x, y)._dirty = false;
+
             // prepare foreground
-            font.chars[_charData.get(x, y).glyph].context2D
+            Point glyphCoords = font.chars[_charData.get(x, y).glyph];
+
+            font._buffer.context2D
+              ..globalCompositeOperation = 'source-over'
+              ..clearRect(0, 0, font._buffer.width, font._buffer.height)
+              ..drawImageScaledFromSource(font._fontCanvas, glyphCoords.x, glyphCoords.y, font.char_width, font.char_height, 0, 0, font.char_width, font.char_height)
               ..fillStyle = _charData.get(x, y).foreColor.toString()
               ..globalCompositeOperation = 'source-in'
               ..fillRect(0, 0, font.char_width, font.char_height);
@@ -52,12 +58,7 @@ class Console extends Image {
 
             // print foreground, but only if there was a change
             container.context2D
-              ..drawImageScaled(
-                  font.chars[_charData.get(x, y).glyph],
-                  x * font.char_width,
-                  y * font.char_height,
-                  font.char_width,
-                  font.char_height);
+              ..drawImage(font._buffer, x * font.char_width, y * font.char_height);
           }
         }
       }

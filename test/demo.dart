@@ -2,7 +2,7 @@ import 'dart:html' as html;
 import 'dart:math';
 
 import 'package:libpen/console.dart';
-import 'package:libpen/gui.dart';
+//import 'package:libpen/gui.dart';
 
 Console console;
 
@@ -19,9 +19,9 @@ main() {
 loop() async {
   await html.window.animationFrame;
 
-  console.fill(glyph: 2//,
-    //foreColor:new Color.interpolate(new Color(R.nextInt(255),R.nextInt(255),R.nextInt(255)), console.get(0,0).foreColor, 0.999),
-    //backColor: new Color.interpolate(new Color(R.nextInt(255),R.nextInt(255),R.nextInt(255)), console.get(0,0).backColor, 0.999)
+  console.fill(glyph: R.nextInt(60),
+    foreColor:new Color(R.nextInt(60),R.nextInt(60),R.nextInt(60)),
+    backColor: new Color(R.nextInt(60),R.nextInt(60),R.nextInt(60))
   );
 
   console.flush();

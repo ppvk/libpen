@@ -1,4 +1,4 @@
-part of libpen;
+part of libpen.console;
 
 class Keyboard {
   Map<int, bool> _keyDownMap = new Map<int, bool>();

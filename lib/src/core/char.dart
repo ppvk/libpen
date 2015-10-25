@@ -1,4 +1,4 @@
-part of libpen;
+part of libpen.console;
 
 // TODO make poolable.
 /// [Char]s represent a cell of an [Image] or [Terminal].

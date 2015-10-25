@@ -1,4 +1,4 @@
-part of libpen;
+part of libpen.console;
 
 /**
  *  An array of [Glyph]/[Color] data that is easily blitted to an [Image] or [Console].

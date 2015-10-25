@@ -1,4 +1,4 @@
-part of libpen;
+part of libpen.console;
 
 /**
  * Handles default colors and manipulation
@@ -11,7 +11,6 @@ class Color {
   static get GRAY => GREY;
   static final Color SEPIA = new Color(127, 101, 63);
   static final Color WHITE = new Color(255, 255, 255);
-  static final Color TRANSPARENT = new Color(0,0,0,0);
 
   static final Color BRASS = new Color(191, 151, 96);
   static final Color COPPER = new Color(196, 136, 124);
