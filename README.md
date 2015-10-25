@@ -14,7 +14,7 @@ Simple setup:
     libpen.Console console = new libpen.Console(60,42);
     
     //Add it to the page 
-    document.body.append(console.container);
+    document.body.append(console.canvas);
 
 Easy use:
 

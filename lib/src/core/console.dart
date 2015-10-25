@@ -2,18 +2,15 @@ part of libpen.console;
 
 /// A representation of a text-based console.
 class Console extends Image {
-  CanvasElement container;
+  CanvasElement canvas;
   Font font;
-  int x_in_chars;
-  int y_in_chars;
-
   Mouse mouse;
 
-  Console(int width, int height, [Font font]) : super(width, height) {
-    if (font == null) this.font = defaultFont;
-    else this.font = font;
+  Console(int width, int height, {this.font, this.canvas}) : super(width, height) {
+    if (font == null) font = defaultFont;
+    if (canvas == null) canvas = new CanvasElement();
 
-    container = new CanvasElement()
+    canvas
       ..classes.add('libpen-console')
       ..classes.add('console-${hashCode}')
       ..context2D.imageSmoothingEnabled = false;
@@ -22,7 +19,7 @@ class Console extends Image {
 
     // once the font is loaded we'll use it to scale our canvas.
     this.font.loaded.then((_) {
-      container
+      canvas
         ..width = _charData.width * this.font.char_width
         ..height = _charData.height * this.font.char_height;
     });
@@ -49,7 +46,7 @@ class Console extends Image {
               ..fillRect(0, 0, font.char_width, font.char_height);
 
             // print background but only if there was a change
-            container.context2D
+            canvas.context2D
               ..clearRect(x * font.char_width, y * font.char_height,
                   font.char_width, font.char_height)
               ..fillStyle = _charData.get(x, y).backColor.toString()
@@ -57,7 +54,7 @@ class Console extends Image {
                   font.char_width, font.char_height);
 
             // print foreground, but only if there was a change
-            container.context2D
+            canvas.context2D
               ..drawImage(font._buffer, x * font.char_width, y * font.char_height);
           }
         }

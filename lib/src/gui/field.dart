@@ -1,28 +1,12 @@
 part of libpen.gui;
 
-class Root extends Field {
-  Console console;
-  Root(width, height) : super(width, height) {
-    console = new Console(width, height);
-    update();
-  }
-
-  update() {
-    html.window.requestAnimationFrame((_) {
-      console.drawImage(x,y, render());
-      console.flush();
-      update();
-    });
-  }
-}
-
-
 class ScrollField extends Field {
   Field _proxy;
   @override get children => _proxy.children;
   @override append(Field other) => _proxy.append(other);
   @override remove(Field other) => _proxy.remove(other);
 
+  Root root;
 
   ScrollField(width, height) : super(width, height) {
     _proxy = new Field(width - 1, height);
@@ -39,17 +23,49 @@ class ScrollField extends Field {
       );
     }
     _children.add(_proxy);
+  }
 
-    // Controls
+  @override
+  handleClick(ClickEvent c) {
+    if (c.position == new Point(x + width, y + 1)) {
+      for (Field child in children)
+        child.y += 1;
+    }
+    if (c.position == new Point(x + width, y + height)) {
+      for (Field child in children)
+        child.y -= 1;
+    }
+  }
+
+}
+
+
+class Root extends Field {
+  Console console;
+  Root(width, height) : super(width, height) {
+    console = new Console(width, height);
+
+    // pass clicks to children
     Mouse.onClick.listen((ClickEvent e) {
-      if (e.position == new Point(x + width, y + 1)) {
-        for (Field child in children)
-          child.y += 1;
+      for (Field child in children) {
+        child.handleClick(e);
       }
-      if (e.position == new Point(x + width, y + height)) {
-        for (Field child in children)
-          child.y -= 1;
-      }
+    });
+
+    update();
+  }
+
+  @override
+  append(Field other) {
+    super.append(other);
+    other._setRoot(this);
+  }
+
+  _update() {
+    html.window.requestAnimationFrame((_) {
+      console.drawImage(x,y, render());
+      console.flush();
+      _update();
     });
   }
 }
@@ -67,6 +83,16 @@ class Field {
   Image image;
 
   Field(this.width, this.height);
+
+  get root => _root;
+  Root _root;
+  _setRoot(Root root) {
+    _root = root;
+    for (Field child in children) {
+      if (child.root != root)
+        child.setRoot(root);
+    };
+  }
 
   Image render([int depth = 0]) {
     Image output = new Image(width, height);
@@ -87,8 +113,12 @@ class Field {
     return output;
   }
 
-  // querying, adding, and removing children.
+  handleClick(ClickEvent c) {
+    // nothing by default
+  }
 
+
+  // querying, adding, and removing children.
   get parent => _parent;
   Field _parent;
 
@@ -103,5 +133,3 @@ class Field {
     other._parent = null;
   }
 }
-
-

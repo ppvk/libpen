@@ -10,7 +10,7 @@ Random R = new Random();
 
 main() {
   console = new Console(50,50);
-  html.document.body.append(console.container);
+  html.document.body.append(console.canvas);
   loop();
 
   console.mouse.onClick.listen((e) => print(e));

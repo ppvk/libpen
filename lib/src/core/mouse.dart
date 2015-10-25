@@ -13,8 +13,8 @@ class Mouse {
     _console.font.loaded.then((_) {
 
       // Handle Right Clicks
-      _console.container.onContextMenu.listen((MouseEvent m) {
-        Rectangle containerRect = _console.container.getBoundingClientRect();
+      _console.canvas.onContextMenu.listen((MouseEvent m) {
+        Rectangle containerRect = _console.canvas.getBoundingClientRect();
         _onRightClick.add(new ClickEvent(
             new Point(
                 (m.client.x - containerRect.left) ~/ _console.font.char_width,
@@ -25,8 +25,8 @@ class Mouse {
       });
 
       // Handle Normal Clicks
-      _console.container.onClick.listen((MouseEvent m) {
-        Rectangle containerRect = _console.container.getBoundingClientRect();
+      _console.canvas.onClick.listen((MouseEvent m) {
+        Rectangle containerRect = _console.canvas.getBoundingClientRect();
         _onClick.add(new ClickEvent(
             new Point(
                 (m.client.x - containerRect.left) ~/ _console.font.char_width,
@@ -37,8 +37,8 @@ class Mouse {
       });
 
       // Handle Double Clicks
-      _console.container.onDoubleClick.listen((MouseEvent m) {
-        Rectangle containerRect = _console.container.getBoundingClientRect();
+      _console.canvas.onDoubleClick.listen((MouseEvent m) {
+        Rectangle containerRect = _console.canvas.getBoundingClientRect();
         _onDoubleClick.add(new ClickEvent(
             new Point(
                 (m.client.x - containerRect.left) ~/ _console.font.char_width,
@@ -49,7 +49,7 @@ class Mouse {
       });
 
       // Handle passive mouse position
-      _console.container.onMouseOver.listen((MouseEvent m) {
+      _console.canvas.onMouseOver.listen((MouseEvent m) {
         if (_x != m.client.x)
           _x = m.client.x;
         if (_y != m.client.y)
