@@ -160,6 +160,8 @@ class Image {
    *
    */
   get(int x, int y) {
-    return _charData.get(x,y)._clone();
+    if (_charData.bounds.contains(new Vec(x,y)))
+      return _charData.get(x,y)._clone();
+    else throw('Glyph out of bounds!');
   }
 }

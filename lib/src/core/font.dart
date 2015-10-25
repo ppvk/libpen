@@ -15,9 +15,9 @@ class Font {
   Future<bool> loaded;
   bool ready = false;
   
-  List chars = [];// stores the positions of the chars
-  int char_width;
-  int char_height;
+  List _chars = [];// stores the positions of the chars
+  int _char_width;
+  int _char_height;
 
   CanvasElement _fontCanvas;
   CanvasElement _buffer;
@@ -33,15 +33,14 @@ class Font {
     Completer loadingComplete = new Completer();
     // font is properly loaded
     font.onLoad.listen((_) {
-      this.char_width = font.width ~/ chars_horizontal;
-      this.char_height = font.height ~/ chars_vertical;
+      _char_width = font.width ~/ chars_horizontal;
+      _char_height = font.height ~/ chars_vertical;
 
       _fontCanvas = new CanvasElement()
         ..width = font.width
         ..height = font.height
         ..context2D.imageSmoothingEnabled = false
         ..context2D.drawImage(font, 0, 0);
-      document.body.append(_fontCanvas);
 
       // set transparency from the first pixel
       List trans = [];
@@ -53,11 +52,10 @@ class Font {
       _fontCanvas.context2D.putImageData(imageData, 0,0);
 
       _buffer = new CanvasElement()
-        ..width = char_width
-        ..height = char_height
+        ..width = _char_width
+        ..height = _char_height
         ..context2D.imageSmoothingEnabled = false
         ..context2D.drawImage(_fontCanvas, 0, 0);
-      document.body.append(_buffer);
 
       int iw = 0;
       int ih = 0;
@@ -67,8 +65,8 @@ class Font {
           ih++;
         }
 
-        Point glyphPos = new Point(char_width * iw, char_height * ih);
-        chars.add(glyphPos);
+        Point glyphPos = new Point(_char_width * iw, _char_height * ih);
+        _chars.add(glyphPos);
         iw++;
       }
       ready = true;

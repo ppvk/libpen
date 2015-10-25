@@ -20,8 +20,8 @@ class Console extends Image {
     // once the font is loaded we'll use it to scale our canvas.
     this.font.loaded.then((_) {
       canvas
-        ..width = _charData.width * this.font.char_width
-        ..height = _charData.height * this.font.char_height;
+        ..width = _charData.width * this.font._char_width
+        ..height = _charData.height * this.font._char_height;
     });
   }
 
@@ -35,27 +35,27 @@ class Console extends Image {
             _charData.get(x, y)._dirty = false;
 
             // prepare foreground
-            Point glyphCoords = font.chars[_charData.get(x, y).glyph];
+            Point glyphCoords = font._chars[_charData.get(x, y).glyph];
 
             font._buffer.context2D
               ..globalCompositeOperation = 'source-over'
               ..clearRect(0, 0, font._buffer.width, font._buffer.height)
-              ..drawImageScaledFromSource(font._fontCanvas, glyphCoords.x, glyphCoords.y, font.char_width, font.char_height, 0, 0, font.char_width, font.char_height)
+              ..drawImageScaledFromSource(font._fontCanvas, glyphCoords.x, glyphCoords.y, font._char_width, font._char_height, 0, 0, font._char_width, font._char_height)
               ..fillStyle = _charData.get(x, y).foreColor.toString()
               ..globalCompositeOperation = 'source-in'
-              ..fillRect(0, 0, font.char_width, font.char_height);
+              ..fillRect(0, 0, font._char_width, font._char_height);
 
             // print background but only if there was a change
             canvas.context2D
-              ..clearRect(x * font.char_width, y * font.char_height,
-                  font.char_width, font.char_height)
+              ..clearRect(x * font._char_width, y * font._char_height,
+                  font._char_width, font._char_height)
               ..fillStyle = _charData.get(x, y).backColor.toString()
-              ..fillRect(x * font.char_width, y * font.char_height,
-                  font.char_width, font.char_height);
+              ..fillRect(x * font._char_width, y * font._char_height,
+                  font._char_width, font._char_height);
 
             // print foreground, but only if there was a change
             canvas.context2D
-              ..drawImage(font._buffer, x * font.char_width, y * font.char_height);
+              ..drawImage(font._buffer, x * font._char_width, y * font._char_height);
           }
         }
       }

@@ -2,28 +2,43 @@ import 'dart:html' as html;
 import 'dart:math';
 
 import 'package:libpen/console.dart';
-//import 'package:libpen/gui.dart';
+import 'package:libpen/gui.dart';
 
 Console console;
 
 Random R = new Random();
 
 main() {
-  console = new Console(50,50);
-  html.document.body.append(console.canvas);
-  loop();
+  Root root = new Root(40,40);
+  html.document.body.append(root.console.canvas);
 
-  console.mouse.onClick.listen((e) => print(e));
-}
 
-loop() async {
-  await html.window.animationFrame;
+  WindowField window = new WindowField(38, 15)
+    ..x = 1
+    ..y = 1
+    ..image.fill(backColor: Color.GRAY);
 
-  console.fill(glyph: R.nextInt(60),
-    foreColor:new Color(R.nextInt(60),R.nextInt(60),R.nextInt(60)),
-    backColor: new Color(R.nextInt(60),R.nextInt(60),R.nextInt(60))
-  );
 
-  console.flush();
-  loop();
+
+  ScrollField scroll = new ScrollField(38, 14)
+    ..image.fill(backColor: Color.GRAY);
+
+  TextField textField = new TextField(37, 70, 'X');
+  for (int i = textField.image.height - 1; i>=0 ; i-- ) {
+    textField.image
+      ..fill(backColor: Color.WHITE, foreColor: Color.BLACK)
+      ..drawText(0, i, i.toString());
+  }
+
+  ButtonField closeButton = new ButtonField(1,1,'x', () {
+    window.parent.remove(window);
+    print('closed!');
+  })
+    ..x = window.width - 1
+    ..image.setBackground(0,0, Color.GRAY);
+  window.append(closeButton);
+
+  root.append(window);
+  window.body.append(scroll);
+  scroll.body.append(textField);
 }

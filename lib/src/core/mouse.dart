@@ -17,8 +17,8 @@ class Mouse {
         Rectangle containerRect = _console.canvas.getBoundingClientRect();
         _onRightClick.add(new ClickEvent(
             new Point(
-                (m.client.x - containerRect.left) ~/ _console.font.char_width,
-                (m.client.y - containerRect.top) ~/ _console.font.char_height),
+                (m.client.x - containerRect.left) ~/ _console.font._char_width,
+                (m.client.y - containerRect.top) ~/ _console.font._char_height),
             m.shiftKey,
             m.altKey));
         m.preventDefault();
@@ -29,8 +29,8 @@ class Mouse {
         Rectangle containerRect = _console.canvas.getBoundingClientRect();
         _onClick.add(new ClickEvent(
             new Point(
-                (m.client.x - containerRect.left) ~/ _console.font.char_width,
-                (m.client.y - containerRect.top) ~/ _console.font.char_height),
+                (m.client.x - containerRect.left) ~/ _console.font._char_width,
+                (m.client.y - containerRect.top) ~/ _console.font._char_height),
             m.shiftKey,
             m.altKey));
         m.preventDefault();
@@ -41,8 +41,8 @@ class Mouse {
         Rectangle containerRect = _console.canvas.getBoundingClientRect();
         _onDoubleClick.add(new ClickEvent(
             new Point(
-                (m.client.x - containerRect.left) ~/ _console.font.char_width,
-                (m.client.y - containerRect.top) ~/ _console.font.char_height),
+                (m.client.x - containerRect.left) ~/ _console.font._char_width,
+                (m.client.y - containerRect.top) ~/ _console.font._char_height),
             m.shiftKey,
             m.altKey));
         m.preventDefault();

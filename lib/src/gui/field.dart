@@ -1,40 +1,85 @@
 part of libpen.gui;
 
-class ScrollField extends Field {
-  Field _proxy;
-  @override get children => _proxy.children;
-  @override append(Field other) => _proxy.append(other);
-  @override remove(Field other) => _proxy.remove(other);
 
-  Root root;
+class ButtonField extends TextField{
+  Function fn;
+  ButtonField(width, height, String text, Function this.fn) : super(width, height, text) {
+  }
+
+  @override
+  _handleClick(ClickEvent c) {
+    fn();
+  }
+}
+
+
+class WindowField extends Field {
+  Field body;
+
+  WindowField(width, height) : super(width, height) {
+    body = new Field(width, height - 1)
+      ..y = 1;
+
+    image = new Image(width, height)
+      ..fill(glyph: '=');
+
+    super.append(body);
+  }
+
+  @override
+  _handleClick(ClickEvent c) {
+    super._handleClick(c);
+  }
+}
+
+
+class TextField extends Field {
+  String _text;
+  get text => _text;
+  set text(String text) {
+    _text = text;
+    image.drawText(0,0, _text, width);
+  }
+
+  TextField(width, height, String text) : super(width, height) {
+    image = new Image(width, height);
+    this.text = text;
+  }
+}
+
+
+
+class ScrollField extends Field {
+  Field body;
 
   ScrollField(width, height) : super(width, height) {
-    _proxy = new Field(width - 1, height);
+    body = new Field(width - 1, height);
     image = new Image(width, height)
       ..setGlyph(width - 1, 0, 30)
       ..setGlyph(width - 1, height - 1, 31);
 
-    for (int i = height-1; i>=0 ; i--) {
-      image.setBackground(width - 1, i, new Color.interpolate(
-          image.get(width - 1, i).backColor,
-          image.get(width - 1, i).foreColor,
-          0.2
-        )
-      );
-    }
-    _children.add(_proxy);
+    super.append(body);
   }
 
   @override
-  handleClick(ClickEvent c) {
-    if (c.position == new Point(x + width, y + 1)) {
-      for (Field child in children)
-        child.y += 1;
+  _handleClick(ClickEvent c) {
+
+    if (c.position == new Point(offset.x + width - 1, offset.y)) {
+      for (Field child in body.children) {
+        if (child.y < 0)
+          child.y += 1;
+        return;
+      }
     }
-    if (c.position == new Point(x + width, y + height)) {
-      for (Field child in children)
-        child.y -= 1;
+    if (c.position == new Point(offset.x + width - 1, offset.y + height - 1)) {
+      for (Field child in body.children) {
+        if (child.y > height - child.height)
+          child.y -= 1;
+        return;
+      }
     }
+
+    super._handleClick(c);
   }
 
 }
@@ -46,13 +91,10 @@ class Root extends Field {
     console = new Console(width, height);
 
     // pass clicks to children
-    Mouse.onClick.listen((ClickEvent e) {
-      for (Field child in children) {
-        child.handleClick(e);
-      }
+    console.mouse.onClick.listen((ClickEvent e) {
+      _handleClick(e);
     });
-
-    update();
+    _update();
   }
 
   @override
@@ -90,7 +132,7 @@ class Field {
     _root = root;
     for (Field child in children) {
       if (child.root != root)
-        child.setRoot(root);
+        child._setRoot(root);
     };
   }
 
@@ -113,10 +155,19 @@ class Field {
     return output;
   }
 
-  handleClick(ClickEvent c) {
-    // nothing by default
+  _handleClick(ClickEvent c) {
+    for (Field child in children) {
+      if (new Rectangle(child.offset.x, child.offset.y, child.width - 1, child.height - 1).containsPoint(new Point(c.position.x, c.position.y))) {
+        child._handleClick(c);
+      }
+    }
   }
 
+  Point get offset {
+    if (parent == null)
+      return new Point(0,0);
+    return new Point(parent.offset.x + x, parent.offset.y + y);
+  }
 
   // querying, adding, and removing children.
   get parent => _parent;
