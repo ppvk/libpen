@@ -7,53 +7,64 @@ part of libpen.console;
  */
 class Mouse {
   Console _console;
+
+  Rectangle containerRect;
+
   Mouse._(this._console) {
     // make sure font is loaded by now.
     // otherwise we will not know how big the cells are.
     _console.font.loaded.then((_) {
+      containerRect = _console.canvas.getBoundingClientRect();
 
       // Handle Right Clicks
       _console.canvas.onContextMenu.listen((MouseEvent m) {
-        Rectangle containerRect = _console.canvas.getBoundingClientRect();
-        _onRightClick.add(new ClickEvent(
+        _onRightClick.add(
             new Point(
                 (m.client.x - containerRect.left) ~/ _console.font._char_width,
-                (m.client.y - containerRect.top) ~/ _console.font._char_height),
-            m.shiftKey,
-            m.altKey));
+                (m.client.y - containerRect.top) ~/ _console.font._char_height)
+        );
         m.preventDefault();
       });
 
       // Handle Normal Clicks
       _console.canvas.onClick.listen((MouseEvent m) {
-        Rectangle containerRect = _console.canvas.getBoundingClientRect();
-        _onClick.add(new ClickEvent(
+        _onClick.add(
             new Point(
                 (m.client.x - containerRect.left) ~/ _console.font._char_width,
-                (m.client.y - containerRect.top) ~/ _console.font._char_height),
-            m.shiftKey,
-            m.altKey));
+                (m.client.y - containerRect.top) ~/ _console.font._char_height)
+        );
         m.preventDefault();
       });
 
       // Handle Double Clicks
       _console.canvas.onDoubleClick.listen((MouseEvent m) {
-        Rectangle containerRect = _console.canvas.getBoundingClientRect();
-        _onDoubleClick.add(new ClickEvent(
+        _onDoubleClick.add(
             new Point(
                 (m.client.x - containerRect.left) ~/ _console.font._char_width,
-                (m.client.y - containerRect.top) ~/ _console.font._char_height),
-            m.shiftKey,
-            m.altKey));
+                (m.client.y - containerRect.top) ~/ _console.font._char_height)
+        );
         m.preventDefault();
       });
 
-      // Handle passive mouse position
-      _console.canvas.onMouseOver.listen((MouseEvent m) {
-        if (_x != m.client.x)
-          _x = m.client.x;
-        if (_y != m.client.y)
-          _y = m.client.y;
+      // Handle passive mouse position and motion.
+      _console.canvas.onMouseMove.listen((MouseEvent m) {
+        // if the mouse has changed Cells
+        if (
+          _x != (m.client.x - containerRect.left) ~/ _console.font._char_width
+          ||
+          _y != (m.client.y - containerRect.top) ~/ _console.font._char_height
+        ) {
+          _onMouseMove.add(
+              new Point(
+                  (m.client.x - containerRect.left) ~/ _console.font._char_width,
+                  (m.client.y - containerRect.top) ~/ _console.font._char_height)
+          );
+        }
+
+        if (_x != (m.client.x - containerRect.left) ~/ _console.font._char_width)
+          _x = (m.client.x - containerRect.left) ~/ _console.font._char_width;
+        if (_y != (m.client.y - containerRect.top) ~/ _console.font._char_height)
+          _y = (m.client.y - containerRect.top) ~/ _console.font._char_height;
       });
 
     });
@@ -76,6 +87,8 @@ class Mouse {
   StreamController _onRightClick = new StreamController.broadcast();
   StreamController _onDoubleClick = new StreamController.broadcast();
   StreamController _onMiddleClick = new StreamController.broadcast();
+  StreamController _onMouseMove = new StreamController.broadcast();
+
   StreamController _onWheelUp = new StreamController.broadcast();
   StreamController _onWheelDown = new StreamController.broadcast();
 
@@ -83,6 +96,8 @@ class Mouse {
   Stream get onRightClick => _onRightClick.stream;
   Stream get onDoubleClick => _onDoubleClick.stream;
   Stream get onMiddleClick => _onMiddleClick.stream;
+  Stream get onMouseMove => _onMouseMove.stream;
+
   Stream get onWheelUp => _onWheelUp.stream;
   Stream get onWheelDown => _onWheelDown.stream;
 
@@ -103,18 +118,5 @@ class Mouse {
     _addStyleIfAbsent();
     hidden = false;
     _mouseStyle.text = '.console${_console.hashCode}.libpen-console{cursor:' + cursor + ';}';
-  }
-}
-
-class ClickEvent {
-  Point position;
-  bool shift;
-  bool alt;
-
-  ClickEvent(final this.position, final this.shift, final this.alt);
-
-  @override
-  String toString() {
-    return 'x:${position.x}, y:${position.y}, shift:$shift, alt:$alt';
   }
 }
