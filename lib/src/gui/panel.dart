@@ -1,35 +1,45 @@
 part of libpen.gui;
 
 /**
- * A [RootPanel] is a special [Panel] that wraps a [Console].
- * It's a lot like the 'document' object in HTML
+ * The [Compositor] handles [Panel] positions and layering,
+ * drawing the updates to the [Console] when needed.
  */
-class RootPanel extends Panel {
-  Console console;
-  RootPanel(width, height) : super(width, height) {
-    console = new Console(width, height);
-    _setRoot(this);
-    // pass clicks to children
-    console.mouse.onClick.listen((pos) {
-      _handleClick(pos);
-    });
-    _update();
-  }
 
-  @override
-  append(Panel other) {
-    super.append(other);
-    other._setRoot(this);
+class Compositor {
+  RootPanel root;
+  Console console;
+  Compositor(final this.console) {
+    root = new RootPanel._(console.width, console.height, console);
+    _update();
   }
 
   _update() {
     html.window.requestAnimationFrame((_) {
-      console.drawImage(x, y, render());
+      console.drawImage(0, 0, root.render());
       console.flush();
       _update();
     });
   }
+
 }
+
+
+
+/**
+ * A [RootPanel] is a special [Panel] that wraps a [Console].
+ * It's a lot like the 'document' object in HTML
+ */
+class RootPanel extends Panel {
+  Console _console;
+  RootPanel._(width, height, this._console) : super(width, height) {
+    // pass clicks to children
+    _console.mouse.onClick.listen((pos) {
+      _handleClick(pos);
+    });
+  }
+}
+
+
 
 /**
  * A [Field] is a rectangular field of characters that can be
@@ -44,16 +54,6 @@ class Panel {
 
   Panel(this.width, this.height) {
     image = new Image(width, height);
-  }
-
-  get root => _root;
-  RootPanel _root;
-  _setRoot(RootPanel root) {
-    _root = root;
-    for (Panel child in children) {
-      if (child.root != root) child._setRoot(root);
-    }
-    ;
   }
 
   Image render([int depth = 0]) {
@@ -71,8 +71,8 @@ class Panel {
     return output;
   }
 
-  StreamController _onClick = new StreamController.broadcast();
 
+  StreamController _onClick = new StreamController.broadcast();
   /// A Stream that is updated when the [Panel] is clicked.
   Stream get onClick => _onClick.stream;
 
