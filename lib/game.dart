@@ -1,3 +1,4 @@
+/*
 library libpen.game;
 import 'dart:math';
 import 'console.dart';
@@ -62,3 +63,4 @@ class Entity {
   Color backColor;
   Color foreColor;
 }
+*/

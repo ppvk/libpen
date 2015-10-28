@@ -5,7 +5,7 @@ class Console extends Image {
   CanvasElement canvas;
   Font font;
   Mouse mouse;
-
+  
   Console(int width, int height, {this.font, this.canvas}) : super(width, height) {
     if (font == null) font = defaultFont;
     if (canvas == null) canvas = new CanvasElement();

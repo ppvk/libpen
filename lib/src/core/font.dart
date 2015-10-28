@@ -3,6 +3,9 @@ part of libpen.console;
 /// the default font that comes with libpen.
 final defaultFont = new Font(new ImageElement(src: 'packages/libpen/font/font.png'), 16, 16);
 
+// device scaling ratio
+final int _scale = window.devicePixelRatio.toInt();
+
 /**
  * Handles font loading and rendering
  * 
@@ -33,14 +36,16 @@ class Font {
     Completer loadingComplete = new Completer();
     // font is properly loaded
     font.onLoad.listen((_) {
-      _char_width = font.width ~/ chars_horizontal;
-      _char_height = font.height ~/ chars_vertical;
+      _char_width = font.width ~/ chars_horizontal * _scale;
+      _char_height = font.height ~/ chars_vertical * _scale;
 
       _fontCanvas = new CanvasElement()
-        ..width = font.width
-        ..height = font.height
+        ..width = font.width * _scale
+        ..height = font.height * _scale
         ..context2D.imageSmoothingEnabled = false
-        ..context2D.drawImage(font, 0, 0);
+        ..context2D.drawImageScaled(font, 0, 0, font.width * _scale, font.height * _scale);
+
+      document.body.append(_fontCanvas);
 
       // set transparency from the first pixel
       List trans = [];
