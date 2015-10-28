@@ -45,8 +45,6 @@ class Font {
         ..context2D.imageSmoothingEnabled = false
         ..context2D.drawImageScaled(font, 0, 0, font.width * _scale, font.height * _scale);
 
-      document.body.append(_fontCanvas);
-
       // set transparency from the first pixel
       List trans = [];
       ImageData imageData = _fontCanvas.context2D.getImageData(0, 0, _fontCanvas.width, _fontCanvas.height);
