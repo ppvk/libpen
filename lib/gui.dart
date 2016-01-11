@@ -4,4 +4,4 @@ import 'dart:async';
 import 'dart:html' as html;
 import 'package:libpen/console.dart';
 
-part 'src/gui/panel.dart';
+part 'src/gui/compositor.dart';
